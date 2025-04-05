@@ -1,0 +1,63 @@
+.seccion {
+  display: none;
+}
+
+.activesection {
+  display: flex;
+}
+
+.profile-image {
+  transition: 1s;
+}
+
+.image-container {
+  position: relative;
+  left: 2%;
+  transition-duration: 0.8s;
+  transition-delay: 0.5s;
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 38%;
+  left: 46%;
+  display: none;
+}
+.camera-icon ion-icon {
+  font-size: 3rem;
+  transition: 0.4s;
+  color: black;
+}
+
+.s_profile {
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+.camera-icon ion-icon:hover {
+  transition: 0.4s;
+  transition-delay: 0.9s;
+}
+
+.btn-foto:hover {
+  border: 0.1rem solid var(--fondo2);
+  font-weight: 500;
+}
+
+.camera-icon:hover {
+  cursor: pointer;
+}
+
+.image-container:hover .profile-image {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.image-container:hover .camera-icon {
+  display: block;
+  color: white;
+}
+
+#file-input {
+  display: none;
+}
