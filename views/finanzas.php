@@ -56,6 +56,7 @@
           >
             Consultar Finanzas
           </button>
+          <!-- Aqui pon el otro boton -->
         </header>
         <article class="w-full p-5">
           <!-- consulta -->

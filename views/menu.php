@@ -46,6 +46,19 @@
               </a>
             </li>
              <?php } ?>
+              <li>
+              <a
+                href="especie.php?section=especies"
+                class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white hover:text-lime-600 border-l-4 border-green-500 hover:border-green-500 pr-6<?php if(isset($_GET['section']) && $_GET['section']== "especies") echo " text-lime-600 bg-white" ?>"
+              >
+                <span class="inline-flex justify-center items-center ml-4">
+                  <ion-icon name="bug-outline"></ion-icon>
+                </span>
+                <span class="ml-2 text-lg tracking-wide truncate"
+                  >Especie</span
+                >
+              </a>
+            </li>
             <li>
               <a
                 href="animales.php?section=animales"
