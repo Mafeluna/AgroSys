@@ -134,7 +134,7 @@ CREATE TABLE Animal(
 #procedimientos almacenados Animal
 CREATE PROCEDURE RegistrarAnimal(
     IN p_nombre VARCHAR(100),
-    IN p_especie ENUM('Vaca', 'Cerdo', 'Gallina', 'Caballo', 'Oveja', 'Pato', 'Conejo','Perro'),
+    IN p_especie TINYINT UNSIGNED,
     IN p_peso DECIMAL(5,2),
     IN p_registrado_por TINYINT UNSIGNED,
     IN p_foto LONGBLOB
@@ -179,6 +179,8 @@ CREATE PROCEDURE EliminarAnimal(
 CREATE TABLE Alimento(
 	id_alimento TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     descripcion VARCHAR(40) NOT NULL,
+    especie TINYINT UNSIGNED NOT NULL,
+    FOREIGN KEY (especie) REFERENCES Especie(id_especie),
     cantidad SMALLINT UNSIGNED NOT NULL,
     tipo_medida ENUM('Kilogramos','Litros') NOT NULL,
     estado ENUM ('Activo','Inactivo') DEFAULT 'Activo'
@@ -226,8 +228,8 @@ CREATE PROCEDURE EliminarAlimento(
 #----------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Alimentacion(
 	id_alimentacion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    animal SMALLINT UNSIGNED NOT NULL,
-    FOREIGN KEY (animal) REFERENCES Animal(id_animal),
+    especie TINYINT UNSIGNED NOT NULL,
+    FOREIGN KEY (especie) REFERENCES Especie(id_especie),
     alimento TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (alimento) REFERENCES Alimento(id_alimento),
     cantidad SMALLINT UNSIGNED NOT NULL,
@@ -273,8 +275,8 @@ CREATE TABLE Produccion(
     tipo_produccion VARCHAR(255) NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
     fecha DATE DEFAULT CURRENT_TIMESTAMP,
-    animal SMALLINT UNSIGNED NOT NULL,
-    FOREIGN KEY (animal) REFERENCES Animal(id_animal),
+    especie TINYINT UNSIGNED NOT NULL,
+    FOREIGN KEY (especie) REFERENCES Especie(id_especie),
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
 
