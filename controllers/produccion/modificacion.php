@@ -24,8 +24,8 @@
         $id_produccion = $_POST['id_produccion'];
         $tipo_produccion = $_POST['tipo_produccion'];
         $cantidad = $_POST['cantidad'];
-
-        $sql = "CALL ActualizarProduccion('$id_produccion','$tipo_produccion','$cantidad');";
+        $especie =$_POST['especie'];
+        $sql = "CALL ActualizarProduccion('$id_produccion','$tipo_produccion','$cantidad',$especie);";
 
         if ($conn->query($sql)) {
           $script = "

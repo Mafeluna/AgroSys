@@ -25,9 +25,9 @@
         
         $tipo_produccion=$_POST["tipo_produccion"];
         $cantidad = $_POST["cantidad"];
-        $animal = $_POST["animal"];
+        $especie = $_POST["especie"];
 
-        $sql = "INSERT INTO Produccion (tipo_produccion,cantidad,animal) VALUES ('$tipo_produccion', $cantidad, $animal)";
+        $sql = "INSERT INTO Produccion (tipo_produccion,cantidad,especie) VALUES ('$tipo_produccion', $cantidad, $especie)";
 
         if ($conn->query($sql) === TRUE) {
             $script = "

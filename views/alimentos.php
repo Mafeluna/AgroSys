@@ -5,6 +5,7 @@
   }
 
   include "../models/m_alimento.php";
+  include "../models/m_especie.php";
 ?>
 
 <!DOCTYPE html>
@@ -91,6 +92,18 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
+                  unidad medida
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
+                  especie
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
                   editar
                 </th>
                 <th
@@ -120,6 +133,12 @@
                 <?php echo $valor['cantidad']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['tipo_medida']?>
+              </td>
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['especie']?>
+              </td>       
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <a href="consultaModAlimento.php?section=alimentos&&id=<?php echo $valor['id_alimento']; ?>" class="text-xl font-bold hover:text-yellow-500">
                   <ion-icon name="create-outline"></ion-icon>
                 </a>
@@ -136,6 +155,10 @@
             </tbody>
           </table>
         </section>
+        <?php
+          $instancia2 = new especie();
+          $respuesta2 = $instancia2->consultaGeneral();
+        ?>
         <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAlimentos">
           <h2 class="text-3xl font-semibold">Registrar Alimento</h2>
           <form action="../controllers/alimento/registro.php" method="POST" class="w-1/2">
@@ -168,6 +191,43 @@
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                 required
               />
+            </div>
+            <div class="mb-5">
+              <label
+                for="tipo_medida"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Tipo de medida:
+              </label>
+              <select
+                name="tipo_medida"
+                id="tipo_medida"
+                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                required
+              >
+                <option value="" selected>-</option>
+                <option value="1">Kilogramos</option>
+                <option value="2">Litros</option>
+            </select>
+            </div>
+            <div class="mb-5">
+              <label
+                for="especie"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Especie:
+              </label>
+              <select
+                name="especie"
+                id="especie"
+                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                required
+              >
+                <option value="" selected>-</option>
+                <?php foreach($respuesta2 as $especie){?>
+                <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
+                <?php } ?>
+            </select>
             </div>
             <div class="w-full flex justify-center">
               <button

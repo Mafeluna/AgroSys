@@ -4,7 +4,7 @@
     header("Location: login.php");
   }
 
-  include "../models/m_animal.php";
+  include "../models/m_especie.php";
   include "../models/m_alimento.php";
   include "../models/m_alimentacion.php"
 ?>
@@ -17,6 +17,7 @@
     <title>AgroSys | Alimentacion</title>
     <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script
       type="module"
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
@@ -82,12 +83,12 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
-                  Animal
+                  Alimento
                 <th
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
-                  Alimento
+                  Especie
                 </th>
                 <th
                   scope="col"
@@ -122,13 +123,14 @@
                 foreach($respuesta as $valor){
               ?>
               <tr>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium"><?php echo $valor['id_alimentacion']?></td>
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['id_alimentacion']?></td>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['nombre']?>
+                <?php echo $valor['alimento']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['descripcion']?>
+                <?php echo $valor['especie']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['cantidad']?>
@@ -160,24 +162,24 @@
              
               <div class="mb-5">
                 <label
-                  for="animal"
+                  for="especie"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
-                  Animal:
+                  Especie:
                 </label>
                 <select
-                  name="animal"
-                  id="animal"
+                  name="especie"
+                  id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                   required
                 >
                 <option value="">-</option>
                 <?php 
-                  $instanciaAnimal = new animal();
+                  $instanciaAnimal = new especie();
                   $respuestaAnimal = $instanciaAnimal->consultaGeneral();
                   foreach($respuestaAnimal as $valor){
                 ?>
-                <option value="<?php echo $valor['id_animal']?>"><?php echo $valor['nombre']?></option>
+                <option value="<?php echo $valor['id_especie']?>"><?php echo $valor['nombre']?></option>
                 <?php
                   }
                 ?>
@@ -198,15 +200,6 @@
                   required
                 >
                 <option value="">-</option>
-                <?php 
-                  $instanciaAlimento = new alimento();
-                  $respuestaAlimento = $instanciaAlimento->consultaGeneral();
-                  foreach($respuestaAlimento as $valor){
-                ?>
-                <option value="<?php echo $valor['id_alimento']?>"><?php echo $valor['descripcion']?></option>
-                <?php
-                  }
-                ?>
               </select>
               </div>
 
@@ -234,6 +227,38 @@
                 </button>
               </div>
             </form>
+            <script>
+              document.getElementById('especie').addEventListener('change', function () {
+                const especieId = this.value;
+                const alimentoSelect = document.getElementById('alimento');
+                alimentoSelect.innerHTML = '<option value="">Cargando...</option>';
+
+                if (especieId !== "") {
+                  axios.get('obteneralimentos.php?section=alimentacion&&especie=' + especieId)
+                    .then(function(response) {
+                      console.log("Datos que llegan:", response.data);
+                      const alimentos = response.data[0]; // Asegúrate de que esto es un array
+                      console.log(alimentos); // <-- Checa esto en consola
+
+                      const alimentoSelect = document.getElementById('alimento');
+                      alimentoSelect.innerHTML = '<option disabled selected>Seleccione un alimento</option>';
+                      
+                      alimentos.forEach(alimento => {
+                        const option = document.createElement('option');
+                        option.value = alimento.id_alimento;
+                        option.textContent = alimento.descripcion;
+                        alimentoSelect.appendChild(option);
+                      });
+                    })
+                    .catch(function(error) {
+                      console.error(error);
+                    });
+                } else {
+                  alimentoSelect.innerHTML = '<option value="">Seleccione una especie primero</option>';
+                }
+              });
+            </script>
+
           </section>
         </article>
         <?php if(isset($_GET['id'])){ ?>

@@ -21,8 +21,10 @@
   include_once "conexion.php";
   $descripcion = $_POST['descripcion'];
   $cantidad = $_POST['cantidad'];
+  $especie = $_POST['especie'];
+  $tipo = $_POST['tipo_medida'];
 
-  $sql="INSERT INTO Alimento (descripcion,cantidad) VALUES ('$descripcion',$cantidad)";
+  $sql="INSERT INTO Alimento (descripcion, cantidad,especie,tipo_medida) VALUES ('$descripcion',$cantidad,$especie,'$tipo')";
   if ($conn->query($sql)=== true) {
     $script = "
     Swal.fire({

@@ -4,7 +4,7 @@
 
     public function consultaGeneral(){
       include "conexion.php";
-      $consulta = $conexion->prepare("CALL ConsultaGneralAlimentacion()");
+      $consulta = $conexion->prepare("CALL ConsultaGeneralAlimentacion()");
       $consulta->execute();
 
       $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);

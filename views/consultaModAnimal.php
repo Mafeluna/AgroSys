@@ -5,6 +5,7 @@
   }
 
   include "../models/m_animal.php";
+  include "../models/m_especie.php";
 ?>
 
 <!DOCTYPE html>
@@ -92,15 +93,16 @@
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                   required
                 >
-                  <option value="<?php echo $respuesta[0]['especie'] ?>" selected><?php echo $respuesta[0]['especie'] ?></option>
-                  <option value="1">Vaca</option>
-                  <option value="2">Cerdo</option>
-                  <option value="3">Gallina</option>
-                  <option value="4">Caballo</option>
-                  <option value="5">Oveja</option>
-                  <option value="6">Pato</option>
-                  <option value="7">Conejo</option>
-                  <option value="8">Perro</option>
+                  <option value="<?php echo $respuesta[0]['id_especie']?>" selected><?php echo $respuesta[0]['especie'] ?></option>
+                  <?php 
+                    $instancia2 = new especie();
+                    $respuesta2 = $instancia2->consultaGeneral();
+                    foreach($respuesta2 as $especie){
+                  ?>
+                  <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
+                  <?php
+                    }
+                  ?>
               </select>
               </div>
               <div class="mb-5">

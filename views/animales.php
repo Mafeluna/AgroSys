@@ -5,6 +5,7 @@
   }
 
   include "../models/m_animal.php";
+  include "../models/m_especie.php";
 ?>
 
 <!DOCTYPE html>
@@ -54,34 +55,36 @@
             <ion-icon name="add-outline"></ion-icon>
             Registrar Animal
           </button>
+          <?php
+            $instancia3 = new especie();
+            $especies = $instancia3->consultaGeneral();
+            foreach($especies as $especie){
+          ?>
           <button
             id="btn-user"
             class="bg-blue-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
-            onclick="mostrarSeccion('consultaAnimal')"
+            onclick="mostrarSeccion('consulta<?php echo $especie['nombre']?>')"
           >
-            Consultar Animales
+            Consultar <?php echo $especie['nombre']."s"?>
           </button>
+          <?php } ?>
         </header>
         <article class="w-full p-5">
+          <?php foreach($especies as $especie){ ?>
           <!-- consulta -->
-          <section class="w-full activesection seccion justify-center gap-10 items-center flex-wrap" id="consultaAnimal">
+          <section class="w-full <?php if ($especie['id_especie'] == 1){?>activesection<?php } ?> seccion justify-center gap-10 items-center flex-wrap flex-col" id="consulta<?php echo $especie['nombre'] ?>">
+            <h1 class="uppercase text-3xl text-center"><?php echo $especie['nombre'] ?>s</h1>
+            <div class="flex justify-center gap-10 items-center flex-wrap">
             <?php
               $instancia = new animal();
-              $respuesta = $instancia->consultaGeneral();
+              $respuesta = $instancia->consultaPorEspecie($especie['nombre']);
               foreach($respuesta as $valor){
-              $imagenA = base64_encode($valor['foto']);
+              //$imagenA = base64_encode($valor['foto']);
             ?>
+            
               <div
             class="bg-white flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl w-96"
           >
-            <div
-              class="h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40"
-            >
-              <img
-                src="data:image/jpeg;base64,<?php echo $imagenA ?>"
-                alt="foto animal"
-              />
-            </div>
             <div class="p-6">
               <h5
                 class="mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center"
@@ -96,7 +99,7 @@
               <p
                 class="block font-sans text-base antialiased font-light leading-relaxed text-inherit"
               >
-                <b>Nombre: </b> <?php echo $valor['nombre'] ?>
+                <b>Código: </b> <?php echo $valor['nombre'] ?>
               </p>
               <p
                 class="block font-sans text-base antialiased font-light leading-relaxed text-inherit"
@@ -126,9 +129,15 @@
             <?php
               }
             ?>
+          </div>
 
 
           </section>
+          <?php
+          }
+            $instancia2 = new especie();
+            $respuesta2 = $instancia2->consultaGeneral();
+          ?>
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Registrar Animal</h2>
@@ -138,10 +147,10 @@
                   for="nombre"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
-                  Nombre:
+                  CODIGO:
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="nombre"
                   id="nombre"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
@@ -162,14 +171,13 @@
                   required
                 >
                   <option value="" selected>-</option>
-                  <option value="1">Vaca</option>
-                  <option value="2">Cerdo</option>
-                  <option value="3">Gallina</option>
-                  <option value="4">Caballo</option>
-                  <option value="5">Oveja</option>
-                  <option value="6">Pato</option>
-                  <option value="7">Conejo</option>
-                  <option value="8">Perro</option>
+                  <?php
+                    foreach($respuesta2 as $especie){
+                  ?>
+                    <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
+                  <?php
+                    }
+                  ?>
               </select>
               </div>
               <div class="mb-5">
@@ -187,7 +195,7 @@
                   required
                 />
               </div>
-              <p class="mb-3 block text-base font-medium text-[#07074D]">Foto:</p>
+              <!-- <p class="mb-3 block text-base font-medium text-[#07074D]">Foto:</p>
               <div class="image-container flex justify-center items-center rounded-md border border-slate-300 w-full focus:outline-none focus:border-blue-400">
                 <label>
                     <img class="profile-image object-cover" src="../images/siluetaAnimal.jpg" alt="Imagen de animal" id="preview-image" style="width:30%;position:relative;left:35%">
@@ -196,8 +204,8 @@
                     </div>
                     <input type="file" class="hidden" id="file-input" name="foto" id="fotoP" accept="image/*" onchange="mostrarImagenPreview(event)">
                 </label>
-              </div>
-              <script>
+              </div> -->
+              <!-- <script>
                   function mostrarImagenPreview(event) {
                       const input = event.target;
                       const reader = new FileReader();
@@ -211,7 +219,7 @@
                           reader.readAsDataURL(input.files[0]);
                       }
                   }
-              </script>
+              </script> -->
               <div class="w-full flex justify-center mt-5">
                 <button
                   class="hover:shadow-form rounded-md bg-lime-500 py-3 px-8 text-base font-semibold text-white outline-none"

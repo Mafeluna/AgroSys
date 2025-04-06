@@ -20,12 +20,11 @@
     <?php
         include_once "conexion.php";
 
-        $animal = $_POST ['animal'];
+        $especie = $_POST ['especie'];
         $alimento = $_POST ['alimento'];
         $cantidad = $_POST ['cantidad'];
 
-        $sql= "INSERT INTO Alimentacion (animal,alimento,cantidad)
-        VALUES ('$animal', '$alimento', '$cantidad');";
+        $sql= "INSERT INTO Alimentacion (especie,alimento,cantidad) VALUES ('$especie', '$alimento', '$cantidad');";
         if ($conn -> query($sql) === TRUE){
             $script = "
                 Swal.fire({

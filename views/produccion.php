@@ -4,7 +4,7 @@
     header("Location: login.php");
   }
 
-  include "../models/m_animal.php";
+  include "../models/m_especie.php";
   include "../models/m_produccion.php";
 ?>
 
@@ -98,7 +98,7 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
-                  animal
+                  Especie
                 </th>
                 <th
                   scope="col"
@@ -190,24 +190,24 @@
 
               <div class="mb-5">
                 <label
-                  for="animal"
+                  for="especie"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
-                  Animal:
+                  Especie:
                 </label>
                 <select
-                  name="animal"
-                  id="animal"
+                  name="especie"
+                  id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                   required
                 >
                 <option value="">-</option>
                 <?php 
-                  $instanciaAnimal = new animal();
+                  $instanciaAnimal = new especie();
                   $respuestaAnimal = $instanciaAnimal->consultaGeneral();
                   foreach($respuestaAnimal as $valor){
                 ?>
-                <option value="<?php echo $valor['id_animal']?>"><?php echo $valor['nombre']?></option>
+                <option value="<?php echo $valor['id_especie']?>"><?php echo $valor['nombre']?></option>
                 <?php
                   }
                 ?>

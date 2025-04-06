@@ -5,23 +5,20 @@
     private $especie;
     private $peso;
     private $registrado_por;
-    private $foto;
     //
-    public function registrar($datos,$user,$image){
+    public function registrar($datos,$user){
       $this->nombre = $datos['nombre'];
       $this->especie = $datos['especie'];
       $this->peso = $datos['peso'];
       $this->registrado_por = $user;
-      $this->foto = $image; 
 
       // registro
       include "conexion.php";
-      $registro = $conexion->prepare("CALL RegistrarAnimal(?,?,?,?,?)");
+      $registro = $conexion->prepare("CALL RegistrarAnimal(?,?,?,?)");
       $registro->bindParam(1,$this->nombre);
       $registro->bindParam(2,$this->especie);
       $registro->bindParam(3,$this->peso);
       $registro->bindParam(4,$this->registrado_por);
-      $registro->bindParam(5,$this->foto);
       $registro->execute();
 
       return 1;
@@ -44,6 +41,18 @@
         $consulta->execute();
         $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
   
+        return $tabla;
+      }
+
+      public function consultaPorEspecie($especie){
+        $this->especie = $especie;
+
+        include "conexion.php";
+        $consulta = $conexion->prepare("CALL ConsultaPorEspecie(?)");
+        $consulta->bindParam(1,$this->especie);
+        $consulta->execute();
+
+        $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
         return $tabla;
       }
   

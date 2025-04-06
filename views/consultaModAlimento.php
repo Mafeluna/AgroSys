@@ -5,6 +5,7 @@
   }
 
   include "../models/m_alimento.php";
+  include "../models/m_especie.php"
 ?>
 
 <!DOCTYPE html>
@@ -106,7 +107,46 @@
                 value="<?php echo $respuesta[0]['cantidad'] ?>"
               />
             </div>
-
+            <div class="mb-5">
+              <label
+                for="tipo_medida"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Tipo de medida:
+              </label>
+              <select
+                name="tipo_medida"
+                id="tipo_medida"
+                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                required
+              >
+                <option value="<?php echo $respuesta[0]['tipo_medida'] ?>" selected><?php echo $respuesta[0]['tipo_medida'] ?></option>
+                <option value="1">Kilogramos</option>
+                <option value="2">Litros</option>
+            </select>
+            </div>
+            <div class="mb-5">
+              <label
+                for="especie"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Especie:
+              </label>
+              <select
+                name="especie"
+                id="especie"
+                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                required
+              >
+                <option value="<?php echo $respuesta[0]['id_especie'] ?>" selected><?php echo $respuesta[0]['especie'] ?></option>
+                <?php 
+                $instancia2 = new especie();
+                $respuesta2 = $instancia2->consultaGeneral();
+                foreach($respuesta2 as $especie){?>
+                <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
+                <?php } ?>
+              </select>
+            </div>
               <input type="hidden" name="id_animal" value="<?php ?>">
               <div class="w-full flex justify-center mt-5">
                 <button

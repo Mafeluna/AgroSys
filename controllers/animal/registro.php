@@ -21,8 +21,7 @@
     include "../../models/m_animal.php";
     session_start();
     $instancia = new animal();
-    $image = file_get_contents($_FILES["foto"]["tmp_name"]);
-    $respuesta = $instancia->registrar($_POST,$_SESSION['id_usuario'],$image); 
+    $respuesta = $instancia->registrar($_POST,$_SESSION['id_usuario']); 
     $script = "";
     if($respuesta == 1){
       $script = "
