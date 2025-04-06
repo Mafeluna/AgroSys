@@ -83,7 +83,7 @@ CREATE TABLE Especie(
 	id_especie TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
-    estado ENUM('Activo','Inactivo')
+    estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
 
 #procedimientos almacenados especie
@@ -127,7 +127,6 @@ CREATE TABLE Animal(
     fecha_ingreso DATE DEFAULT CURRENT_TIMESTAMP,
     registrado_por TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (registrado_por) REFERENCES Usuario(id_usuario),
-    foto LONGBLOB NOT NULL,
     estado ENUM ('Activo','Inactivo') DEFAULT 'Activo'
 );
 
@@ -136,24 +135,30 @@ CREATE PROCEDURE RegistrarAnimal(
     IN p_nombre VARCHAR(100),
     IN p_especie TINYINT UNSIGNED,
     IN p_peso DECIMAL(5,2),
-    IN p_registrado_por TINYINT UNSIGNED,
-    IN p_foto LONGBLOB
+    IN p_registrado_por TINYINT UNSIGNED
 )
-    INSERT INTO Animal (nombre, especie, peso, registrado_por,foto)
-    VALUES (p_nombre, p_especie, p_peso, p_registrado_por,p_foto);
+    INSERT INTO Animal (nombre, especie, peso, registrado_por)
+    VALUES (p_nombre, p_especie, p_peso, p_registrado_por);
     
 CREATE PROCEDURE ConsultaGeneralAnimal()
-	SELECT Animal.id_animal,Animal.nombre,Animal.especie,Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user",Animal.foto 
+	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
     FROM Usuario 
-    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario WHERE Animal.estado=1;
+    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1;
+    
+CREATE PROCEDURE ConsultaPorEspecie(
+	IN p_especie VARCHAR(50)
+)
+	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
+    FROM Usuario 
+    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND Especie.nombre = p_especie;
     
     
 CREATE PROCEDURE ConsultaEspecificaAnimal(
 	IN p_id_animal SMALLINT UNSIGNED
 )
-	SELECT Animal.id_animal,Animal.nombre,Animal.especie,Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user",Animal.foto
+	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Especie.id_especie,Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
     FROM Usuario 
-    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario WHERE Animal.estado=1 AND id_animal = p_id_animal;
+    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND id_animal = p_id_animal;
 
 CREATE PROCEDURE ModificarAnimal(
     IN p_id_animal SMALLINT UNSIGNED,
@@ -190,31 +195,37 @@ CREATE TABLE Alimento(
 CREATE PROCEDURE InsertarAlimento 
 (
     IN p_descripcion VARCHAR(40),
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_cantidad SMALLINT UNSIGNED,
+    IN p_especie TINYINT UNSIGNED,
+    IN p_tipo ENUM('Kilogramos','Litros')
 )
-    INSERT INTO Alimento (descripcion, cantidad) 
-    VALUES (p_descripcion, p_cantidad);
+    INSERT INTO Alimento (descripcion, cantidad,especie,tipo_medida) 
+    VALUES (p_descripcion, p_cantidad, p_especie,p_tipo);
 
 
 CREATE PROCEDURE ConsultaGeneralAlimento()
-	SELECT*FROM Alimento WHERE estado=1;
+	SELECT Alimento.id_alimento,Alimento.descripcion,Especie.nombre as "especie",Alimento.cantidad,Alimento.tipo_medida
+    FROM Alimento INNER JOIN Especie ON Alimento.especie = Especie.id_especie WHERE Alimento.estado=1;
 
 
 CREATE PROCEDURE ConsultarAlimentoPorID(
     IN p_id_alimento TINYINT UNSIGNED
 )
-    SELECT * FROM Alimento WHERE id_alimento = p_id_alimento;
+    SELECT Alimento.id_alimento,Alimento.descripcion,Especie.id_especie,Especie.nombre as "especie",Alimento.cantidad,Alimento.tipo_medida
+    FROM Alimento INNER JOIN Especie ON Alimento.especie = Especie.id_especie WHERE id_alimento = p_id_alimento;
 
 
 CREATE PROCEDURE ActualizarAlimento(
     IN p_id_alimento TINYINT UNSIGNED,
     IN p_descripcion VARCHAR(40),
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_cantidad SMALLINT UNSIGNED,
+    IN p_especie TINYINT UNSIGNED
 )
     UPDATE Alimento
     SET 
     descripcion = p_descripcion,
-	cantidad = p_cantidad
+	cantidad = p_cantidad,
+    especie = p_especie
     WHERE id_alimento = p_id_alimento;
 
 
@@ -239,7 +250,7 @@ CREATE TABLE Alimentacion(
 
 #procedimientos almacenados
 CREATE PROCEDURE InsertarAlimentacion(
-    IN p_animal SMALLINT UNSIGNED,
+    IN p_especie TINYINT UNSIGNED,
     IN p_alimento TINYINT UNSIGNED,
     IN p_cantidad SMALLINT UNSIGNED
 )
@@ -247,10 +258,18 @@ CREATE PROCEDURE InsertarAlimentacion(
     VALUES (p_animal, p_alimento, p_cantidad);
 
 
-CREATE PROCEDURE ConsultaGneralAlimentacion()
-	SELECT id_alimentacion,nombre,descripcion,Alimentacion.cantidad,fecha FROM Alimento 
-    INNER JOIN Alimentacion ON id_alimento=alimento INNER JOIN Animal ON animal=id_animal WHERE Alimentacion.estado=1;
-
+CREATE PROCEDURE ConsultaGeneralAlimentacion()
+	SELECT 
+        Alimentacion.id_alimentacion,
+        Especie.nombre AS "especie",
+        Alimento.descripcion AS "alimento",
+        Alimentacion.cantidad,
+        Alimentacion.fecha
+    FROM Alimentacion
+    INNER JOIN Alimento ON Alimento.id_alimento = Alimentacion.alimento
+    INNER JOIN Especie ON Especie.id_especie = Alimentacion.especie
+    WHERE Alimentacion.estado = 'Activo'
+    ORDER BY Alimentacion.id_alimentacion ASC;
 
 CREATE PROCEDURE ConsultarAlimentacionPorID(
     IN p_id_alimentacion INT UNSIGNED
@@ -292,27 +311,30 @@ CREATE PROCEDURE InsertarProduccion
 
 
 CREATE PROCEDURE ConsultaGeneralProduccion()
-	SELECT id_produccion,tipo_produccion,cantidad,fecha,nombre FROM Animal INNER JOIN Produccion ON id_animal=animal WHERE Produccion.estado=1;
+	SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.fecha,Especie.nombre 
+    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado=1;
 
 
 CREATE PROCEDURE ConsultarProduccionPorID(	
 IN p_id_produccion INT UNSIGNED)
-    SELECT * FROM Produccion
-    WHERE id_produccion = p_id_produccion AND estado=1;
+    SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.fecha,Especie.id_especie,Especie.nombre
+    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado=1 AND Produccion.id_produccion=p_id_produccion;
 
 
 CREATE PROCEDURE ActualizarProduccion(
     IN p_id_produccion INT UNSIGNED,
     IN p_tipo_produccion VARCHAR(255),
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_cantidad SMALLINT UNSIGNED,
+    IN p_especie TINYINT UNSIGNED
 )
     UPDATE Produccion
     SET 
-    tipo_produccion = p_tipo_produccion,
-	cantidad = p_cantidad
+        tipo_produccion = p_tipo_produccion,
+        cantidad = p_cantidad,
+        especie = p_especie
     WHERE id_produccion = p_id_produccion;
 
-
+CALL ActualizarProduccion(1,"leche",34,5);
 CREATE PROCEDURE EliminarProduccion(
     IN p_id_produccion INT UNSIGNED
 )
