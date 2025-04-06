@@ -61,6 +61,13 @@
           >
             Consultar Especie
           </button>
+          <button
+            id="btn-user"
+            class="bg-red-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+            onclick="window.location.href='../controllers/especie/generarpdf.php'"
+          >
+            Generar PDF
+          </button>
         </header>
         <article class="w-full p-5">
           <!-- consulta -->
