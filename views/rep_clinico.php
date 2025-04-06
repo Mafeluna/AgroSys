@@ -4,7 +4,7 @@ header("Content-Disposition: attachment; filename=historial_clinico.xls");
 header("Pragma: no-cache");
 header("Expires: 0");
 
-include "../models/m_istorial";
+include "../models/m_historial.php";
 $instancia2 = new historial();
 $respuesta2 = $instancia2->consultaGeneral();
 ?>
