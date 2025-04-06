@@ -6,12 +6,17 @@
   $resultado = $conexion->prepare($consulta);
   $resultado->execute();
 
+  
+
   // Crear el PDF
   $pdf = new FPDF();
   $pdf->AddPage();
   $pdf->SetFont('Arial', 'B', 14);
   $pdf->Cell(0, 10, 'Listado de Especies', 0, 1, 'C');
   $pdf->Ln(5);
+
+  $pdf->Image('../../images/logo.jpg', 10, 10, 30);
+  $pdf->Ln(15);
 
   // Cabecera de la tabla
   $pdf->SetFont('Arial', 'B', 12);
