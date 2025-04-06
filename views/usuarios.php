@@ -84,13 +84,6 @@
             >
               <ion-icon name="search-outline" class="text-2xl"></ion-icon>
             </button>
-            <button
-            id="btn-user"
-            class="bg-red-500 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
-            onclick="window.location.href='rep_usuario.php'"
-          >
-           Exportar en Excel
-          </button>
         </form>
           </div>
         </header>
@@ -152,6 +145,12 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
+                notificar
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
                   editar
                 </th>
                 <th
@@ -163,51 +162,71 @@
               </tr>
             </thead>
             <tbody class="bg-emerald-100">
-              <?php 
-                $instancia = new usuario();
-                if(isset($_POST['documento'])){
-                  $respuesta = $instancia->buscarPorDocumento($_POST['documento']);
-                } else{
-                $respuesta = $instancia->consultaGeneral();}
-                foreach($respuesta as $valor){
-              ?>
-              <tr>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium"><?php echo $valor['id_usuario']?></td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['nombre']." ".$valor['apellido'] ?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['documento']?></td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['email']?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['rol']?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['telefono']?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['direccion']?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['fecha_registro']?>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <a href="consultaModUser.php?section=usuarios&&id=<?php echo $valor['documento'] ?>" class="text-xl font-bold hover:text-yellow-500">
-                  <ion-icon name="create-outline"></ion-icon>
-                </a>
-              </td>
-              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <a href="usuarios.php?section=usuarios&&id=<?php echo $valor['id_usuario'] ?>" class="text-xl font-bold hover:text-red-500">
-                  <ion-icon name="trash-outline"></ion-icon>
-                </a>
-              </td>
-              </tr>
-              <?php
-                }
-              ?>
-            </tbody>
+  <?php 
+    $instancia = new usuario();
+    if(isset($_POST['documento'])){
+      $respuesta = $instancia->buscarPorDocumento($_POST['documento']);
+    } else {
+      $respuesta = $instancia->consultaGeneral();
+    }
+    foreach($respuesta as $valor){
+  ?>
+  <tr>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium"><?php echo $valor['id_usuario']?></td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['nombre']." ".$valor['apellido'] ?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['documento']?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['email']?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['rol']?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['telefono']?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['direccion']?>
+  </td>
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <?php echo $valor['fecha_registro']?>
+  </td>
+
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <button onclick="toggleMensaje(this)" class="text-blue-700 text-2xl hover:text-blue-900">
+      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+    </button>
+    <div class="mt-2 hidden">
+    <form action="../controllers/usuario/correo_autom.php" method="POST"
+    class="flex flex-col gap-2 mt-2">
+        <input type="hidden" name="correo_destino" value="<?php echo $valor['email']; ?>">
+        <textarea name="mensaje" rows="2" placeholder="Escribe tu mensaje..." class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+        <button type="submit" class="self-start px-4 py-1 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm font-semibold">
+          Enviar
+        </button>
+      </form>
+    </div>
+  </td>
+
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <a href="consultaModUser.php?section=usuarios&&id=<?php echo $valor['documento'] ?>" class="text-xl font-bold hover:text-yellow-500">
+      <ion-icon name="create-outline"></ion-icon>
+    </a>
+  </td>
+
+  <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+    <a href="usuarios.php?section=usuarios&&id=<?php echo $valor['id_usuario'] ?>" class="text-xl font-bold hover:text-red-500">
+      <ion-icon name="trash-outline"></ion-icon>
+    </a>
+  </td>
+</tr>
+
+  <?php } ?>
+</tbody>
+
           </table>
         </section>
         <section class="w-full h-full justify-center items-center seccion flex-col" id="registerUser">
@@ -370,5 +389,12 @@
     <?php
       include "footer.php";
     ?>
+    <script>
+function toggleMensaje(btn) {
+  const contenedor = btn.closest('td').querySelector('div');
+  contenedor.classList.toggle('hidden');
+}
+</script>
+
   </body>
 </html>
