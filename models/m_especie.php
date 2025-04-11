@@ -6,13 +6,11 @@
 
     public function registrar($datos){
       $this->nombre = $datos['nombre'];
-      $this->cantidad = $datos['cantidad'];
 
       //registro
       include "conexion.php";
-      $registro = $conexion->prepare("CALL RegistrarEspecie(?,?)");
+      $registro = $conexion->prepare("CALL RegistrarEspecie(?)");
       $registro->bindParam(1,$this->nombre);
-      $registro->bindParam(2,$this->cantidad);
       $registro->execute();
 
       return 1;

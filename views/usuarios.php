@@ -46,7 +46,7 @@
       <!-- section -->
       <section class="w-full overflow-y-auto" style="height: 90vh">
         <header class="flex p-5 gap-5">
-          <div class="w-1/6 flex justify-between">
+          <div class="w-1/3 flex justify-between">
           <button
             id="btn-user"
             class="bg-green-500 duration-150 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
@@ -69,22 +69,6 @@
           >
             Generar PDF
           </button>
-          </div>
-          <div class="w-5/6 flex items-center pl-5">
-          <form class="relative w-4/6" action="" method="post">
-            <input 
-                type="text" 
-                placeholder="Buscar por documento..." 
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-300"
-                name="documento"
-            >
-            <button 
-                type="submit" 
-                class="absolute right-0 top-0 mt-2 mr-4 text-gray-600 hover:text-blue-500"
-            >
-              <ion-icon name="search-outline" class="text-2xl"></ion-icon>
-            </button>
-        </form>
           </div>
         </header>
         <article class="w-full p-5">

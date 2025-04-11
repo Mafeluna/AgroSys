@@ -74,6 +74,10 @@
           <!-- consulta -->
           <section class="w-full <?php if ($especie['id_especie'] == 1){?>activesection<?php } ?> seccion justify-center gap-10 items-center flex-wrap flex-col" id="consulta<?php echo $especie['nombre'] ?>">
             <h1 class="uppercase text-3xl text-center"><?php echo $especie['nombre'] ?>s</h1>
+          <form action="../controllers/animal/generar_pdf_animales.php" method="GET">
+            <input type="hidden" name="especie" value="<?php echo $especie['nombre'] ?>">
+            <button class="bg-red-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold" type="submit">Generar PDF <?php echo $especie['nombre']."s" ?></button>
+          </form>
             <div class="flex justify-center gap-10 items-center flex-wrap">
             <?php
               $instancia = new animal();
@@ -110,6 +114,11 @@
                 class="block font-sans text-base antialiased font-light leading-relaxed text-inherit"
               >
                 <b>Peso: </b> <?php echo $valor['peso']." KG" ?>
+              </p>
+              <p
+                class="block font-sans text-base antialiased font-light leading-relaxed text-inherit"
+              >
+                <b>Fecha de Ingreso: </b> <?php echo $valor['fecha_ingreso']?>
               </p>
               <p
                 class="block font-sans text-base antialiased font-light leading-relaxed text-inherit"

@@ -115,9 +115,9 @@
               <a href="consultaModEspecie.php?section=especies&&id_especie=<?php echo $valor['id_especie']; ?>" class="text-2xl text-yellow-500">
                 <ion-icon name="create-outline"></ion-icon>                
               </a>
-              <a href="especie.php?section=especies&&id=<?php echo $valor['id_especie'] ?>">
+              <!--<a href="especie.php?section=especies&&id=<?php echo $valor['id_especie'] ?>">
                 <ion-icon name="trash-outline" class="text-2xl text-red-500"></ion-icon>
-              </a>
+              </a>-->
             </div>
           </div>
             <?php
@@ -141,21 +141,6 @@
                   type="text"
                   name="nombre"
                   id="nombre"
-                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
-                />
-              </div>
-              <div class="mb-5">
-                <label
-                  for="cantidad"
-                  class="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Cantidad:
-                </label>
-                <input
-                  type="number"
-                  name="cantidad"
-                  id="cantidad"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                   required
                 />
