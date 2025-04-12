@@ -17,7 +17,32 @@ CREATE TABLE Usuario(
 
 INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
 VALUES ('Maria Fernanda', 'Luna', 1031651096, 'smfernandaluna@gmail.com', 'MAFE123', 1, 3052955391, 'cll 146 #138a-04');
-
+#usuarios ficticios
+INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
+VALUES 
+('Laura', 'Gómez', 1012345678, 'laura.gomez@example.com', 'clave123', 'Administrador', 3201234567, 'Cra 10 #45-67'),
+('Carlos', 'Ramírez', 1023456789, 'carlos.ramirez@example.com', 'clave123', 'Encargado Animales', 3102345678, 'Calle 20 #12-34'),
+('Marta', 'López', 1034567890, 'marta.lopez@example.com', 'clave123', 'Encargado de Producción', 3003456789, 'Av. Siempre Viva #101'),
+('Pedro', 'Martínez', 1045678901, 'pedro.martinez@example.com', 'clave123', 'Veterinario', 3114567890, 'Cra 8 #23-45'),
+('Ana', 'Fernández', 1056789012, 'ana.fernandez@example.com', 'clave123', 'Encargado Animales', 3125678901, 'Calle 50 #10-20'),
+('Julián', 'Torres', 1067890123, 'julian.torres@example.com', 'clave123', 'Veterinario', 3136789012, 'Carrera 15 #80-10');
+INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
+VALUES
+('Camila', 'Rojas', 1078901234, 'camila.rojas@example.com', 'clave123', 'Administrador', 3147890123, 'Calle 100 #15-20'),
+('Esteban', 'Mejía', 1089012345, 'esteban.mejia@example.com', 'clave123', 'Encargado Animales', 3158901234, 'Av. Norte #120-30'),
+('Sofía', 'Díaz', 1090123456, 'sofia.diaz@example.com', 'clave123', 'Encargado de Producción', 3169012345, 'Cra 3 #45-56'),
+('Andrés', 'Gutiérrez', 1101234567, 'andres.gutierrez@example.com', 'clave123', 'Veterinario', 3170123456, 'Calle 22 #60-90'),
+('Valentina', 'Pérez', 1112345678, 'valentina.perez@example.com', 'clave123', 'Administrador', 3181234567, 'Diagonal 45 #12-34'),
+('Sebastián', 'Castro', 1123456789, 'sebastian.castro@example.com', 'clave123', 'Encargado Animales', 3192345678, 'Transversal 10 #78-90'),
+('Daniela', 'Ruiz', 1134567890, 'daniela.ruiz@example.com', 'clave123', 'Encargado de Producción', 3203456789, 'Cra 14 #44-55'),
+('Felipe', 'Moreno', 1145678901, 'felipe.moreno@example.com', 'clave123', 'Veterinario', 3214567890, 'Calle 66 #20-33'),
+('Isabella', 'Ortiz', 1156789012, 'isabella.ortiz@example.com', 'clave123', 'Administrador', 3225678901, 'Carrera 25 #10-22'),
+('Tomás', 'Vargas', 1167890123, 'tomas.vargas@example.com', 'clave123', 'Encargado Animales', 3236789012, 'Av. Central #77-80'),
+('Natalia', 'Silva', 1178901234, 'natalia.silva@example.com', 'clave123', 'Encargado de Producción', 3247890123, 'Calle 88 #13-14'),
+('Diego', 'Reyes', 1189012345, 'diego.reyes@example.com', 'clave123', 'Veterinario', 3258901234, 'Cra 11 #19-22'),
+('Paula', 'Navarro', 1190123456, 'paula.navarro@example.com', 'clave123', 'Encargado Animales', 3269012345, 'Carrera 30 #20-10'),
+('Miguel', 'Cortés', 1201234567, 'miguel.cortes@example.com', 'clave123', 'Administrador', 3270123456, 'Calle 12 #30-40'),
+('Lucía', 'Salazar', 1212345678, 'lucia.salazar@example.com', 'clave123', 'Veterinario', 3281234567, 'Av. Suba #100-22');
 
 #Procedimientos almacenados Usuario
 CREATE PROCEDURE AccesoAlSistema(
@@ -88,10 +113,14 @@ CREATE TABLE Especie(
 
 #procedimientos almacenados especie
 CREATE PROCEDURE RegistrarEspecie(
-	IN p_nombre VARCHAR(50),
-    IN p_cantidad SMALLINT UNSIGNED
+	IN p_nombre VARCHAR(50)
 )
-	INSERT INTO Especie(nombre,cantidad) VALUES(p_nombre,p_cantidad);
+	INSERT INTO Especie(nombre,cantidad) VALUES(p_nombre,0);
+CALL RegistrarEspecie('Vaca');
+CALL RegistrarEspecie('Caballo');
+CALL RegistrarEspecie('Gallina');
+CALL RegistrarEspecie('Cerdo');
+
 
 CREATE PROCEDURE ConsultaGeneralEspecie()
 	SELECT*FROM Especie WHERE estado=1;
@@ -103,12 +132,10 @@ CREATE PROCEDURE ConsultaEspecificaEspecie(
 
 CREATE PROCEDURE ModificarEspecie(
 	IN p_id_especie TINYINT UNSIGNED,
-    IN p_nombre VARCHAR(50),
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_nombre VARCHAR(50)
 )
 	UPDATE Especie
-    SET nombre = p_nombre,
-		cantidad = p_cantidad
+    SET nombre = p_nombre
 	WHERE id_especie = p_id_especie AND estado = 1;
 
 CREATE PROCEDURE EliminarEspecie(
@@ -131,14 +158,113 @@ CREATE TABLE Animal(
 );
 
 #procedimientos almacenados Animal
+DELIMITER //
 CREATE PROCEDURE RegistrarAnimal(
     IN p_nombre VARCHAR(100),
     IN p_especie TINYINT UNSIGNED,
     IN p_peso DECIMAL(5,2),
     IN p_registrado_por TINYINT UNSIGNED
 )
+BEGIN
     INSERT INTO Animal (nombre, especie, peso, registrado_por)
     VALUES (p_nombre, p_especie, p_peso, p_registrado_por);
+	
+    UPDATE Especie
+		SET cantidad = cantidad + 1
+        WHERE id_especie = p_especie;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE RegistrarAnimalConFecha(
+    IN p_nombre VARCHAR(100),
+    IN p_especie TINYINT UNSIGNED,
+    IN p_peso DECIMAL(5,2),
+    IN p_fecha_ingreso DATE,
+    IN p_registrado_por TINYINT UNSIGNED
+)
+BEGIN
+    INSERT INTO Animal (nombre, especie, peso, fecha_ingreso, registrado_por)
+    VALUES (p_nombre, p_especie, p_peso, p_fecha_ingreso, p_registrado_por);
+
+    UPDATE Especie
+    SET cantidad = cantidad + 1
+    WHERE id_especie = p_especie;
+END //
+DELIMITER ;
+CALL RegistrarAnimalConFecha('001', 1, 3.50, '2025-01-05', 1);
+CALL RegistrarAnimalConFecha('002', 1, 3.55, '2025-01-12', 1);
+CALL RegistrarAnimalConFecha('003', 2, 2.10, '2025-01-15', 2);
+CALL RegistrarAnimalConFecha('004', 3, 4.80, '2025-01-20', 3);
+CALL RegistrarAnimalConFecha('005', 4, 5.60, '2025-01-25', 2);
+CALL RegistrarAnimalConFecha('006', 1, 3.60, '2025-02-03', 1);
+CALL RegistrarAnimalConFecha('007', 2, 2.15, '2025-02-08', 2);
+CALL RegistrarAnimalConFecha('008', 2, 2.20, '2025-02-12', 2);
+CALL RegistrarAnimalConFecha('009', 3, 4.85, '2025-02-16', 3);
+CALL RegistrarAnimalConFecha('010', 4, 5.65, '2025-02-20', 1);
+CALL RegistrarAnimalConFecha('011', 4, 5.70, '2025-02-25', 1);
+CALL RegistrarAnimalConFecha('012', 1, 3.65, '2025-03-01', 1);
+CALL RegistrarAnimalConFecha('013', 1, 3.70, '2025-03-05', 1);
+CALL RegistrarAnimalConFecha('014', 1, 3.75, '2025-03-10', 1);
+CALL RegistrarAnimalConFecha('015', 2, 2.25, '2025-03-12', 2);
+CALL RegistrarAnimalConFecha('016', 3, 4.90, '2025-03-18', 3);
+CALL RegistrarAnimalConFecha('017', 4, 5.80, '2025-03-22', 2);
+CALL RegistrarAnimalConFecha('018', 3, 4.95, '2025-03-28', 3);
+CALL RegistrarAnimalConFecha('019', 1, 3.80, '2025-04-04', 1);
+CALL RegistrarAnimalConFecha('020', 2, 2.30, '2025-04-08', 2);
+CALL RegistrarAnimalConFecha('021', 3, 5.00, '2025-04-12', 3);
+CALL RegistrarAnimalConFecha('022', 4, 5.85, '2025-04-16', 1);
+CALL RegistrarAnimalConFecha('023', 2, 2.35, '2025-04-20', 2);
+CALL RegistrarAnimalConFecha('024', 1, 3.85, '2025-05-03', 1);
+CALL RegistrarAnimalConFecha('025', 1, 3.90, '2025-05-07', 1);
+CALL RegistrarAnimalConFecha('026', 1, 3.95, '2025-05-10', 1);
+CALL RegistrarAnimalConFecha('027', 2, 2.40, '2025-05-14', 2);
+CALL RegistrarAnimalConFecha('028', 3, 5.05, '2025-05-18', 3);
+CALL RegistrarAnimalConFecha('029', 4, 5.90, '2025-05-22', 1);
+CALL RegistrarAnimalConFecha('030', 4, 5.95, '2025-05-26', 1);
+CALL RegistrarAnimalConFecha('031', 1, 4.00, '2025-06-02', 1);
+CALL RegistrarAnimalConFecha('032', 2, 2.45, '2025-06-06', 2);
+CALL RegistrarAnimalConFecha('033', 2, 2.50, '2025-06-10', 2);
+CALL RegistrarAnimalConFecha('034', 3, 5.10, '2025-06-14', 3);
+CALL RegistrarAnimalConFecha('035', 4, 6.00, '2025-06-18', 1);
+CALL RegistrarAnimalConFecha('036', 4, 6.05, '2025-06-22', 1);
+CALL RegistrarAnimalConFecha('037', 1, 4.10, '2025-07-03', 1);
+CALL RegistrarAnimalConFecha('038', 1, 4.15, '2025-07-07', 1);
+CALL RegistrarAnimalConFecha('039', 2, 2.55, '2025-07-11', 2);
+CALL RegistrarAnimalConFecha('040', 2, 2.60, '2025-07-15', 2);
+CALL RegistrarAnimalConFecha('041', 3, 5.15, '2025-07-19', 3);
+CALL RegistrarAnimalConFecha('042', 4, 6.10, '2025-07-23', 1);
+CALL RegistrarAnimalConFecha('043', 1, 4.20, '2025-08-05', 1);
+CALL RegistrarAnimalConFecha('044', 2, 2.65, '2025-08-09', 2);
+CALL RegistrarAnimalConFecha('045', 3, 5.20, '2025-08-13', 3);
+CALL RegistrarAnimalConFecha('046', 4, 6.15, '2025-08-17', 1);
+CALL RegistrarAnimalConFecha('047', 4, 6.20, '2025-08-21', 1);
+CALL RegistrarAnimalConFecha('048', 1, 4.25, '2025-09-02', 1);
+CALL RegistrarAnimalConFecha('049', 1, 4.30, '2025-09-06', 1);
+CALL RegistrarAnimalConFecha('050', 2, 2.70, '2025-09-10', 2);
+CALL RegistrarAnimalConFecha('051', 2, 2.75, '2025-09-14', 2);
+CALL RegistrarAnimalConFecha('052', 3, 5.25, '2025-09-18', 3);
+CALL RegistrarAnimalConFecha('053', 3, 5.30, '2025-09-22', 3);
+CALL RegistrarAnimalConFecha('054', 4, 6.25, '2025-09-26', 1);
+CALL RegistrarAnimalConFecha('055', 1, 4.35, '2025-10-03', 1);
+CALL RegistrarAnimalConFecha('056', 2, 2.80, '2025-10-07', 2);
+CALL RegistrarAnimalConFecha('057', 3, 5.35, '2025-10-11', 3);
+CALL RegistrarAnimalConFecha('058', 4, 6.30, '2025-10-15', 1);
+CALL RegistrarAnimalConFecha('059', 3, 5.40, '2025-10-19', 3);
+CALL RegistrarAnimalConFecha('060', 1, 4.40, '2025-11-03', 1);
+CALL RegistrarAnimalConFecha('061', 1, 4.45, '2025-11-07', 1);
+CALL RegistrarAnimalConFecha('062', 2, 2.85, '2025-11-11', 2);
+CALL RegistrarAnimalConFecha('063', 2, 2.90, '2025-11-15', 2);
+CALL RegistrarAnimalConFecha('064', 3, 5.45, '2025-11-19', 3);
+CALL RegistrarAnimalConFecha('065', 4, 6.35, '2025-11-23', 1);
+CALL RegistrarAnimalConFecha('066', 1, 4.50, '2025-12-02', 1);
+CALL RegistrarAnimalConFecha('067', 1, 4.55, '2025-12-06', 1);
+CALL RegistrarAnimalConFecha('068', 1, 4.60, '2025-12-10', 1);
+CALL RegistrarAnimalConFecha('069', 2, 2.95, '2025-12-14', 2);
+CALL RegistrarAnimalConFecha('070', 3, 5.50, '2025-12-18', 3);
+CALL RegistrarAnimalConFecha('071', 4, 6.40, '2025-12-22', 1);
+CALL RegistrarAnimalConFecha('072', 4, 6.45, '2025-12-26', 1);
+
     
 CREATE PROCEDURE ConsultaGeneralAnimal()
 	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
@@ -191,6 +317,19 @@ CREATE TABLE Alimento(
     estado ENUM ('Activo','Inactivo') DEFAULT 'Activo'
 );
 
+INSERT INTO Alimento (descripcion, especie, cantidad, tipo_medida)
+VALUES 
+('Heno seco', 1, 500, 'Kilogramos'),
+('Concentrado bovino', 1, 200, 'Kilogramos'),
+('Sal mineralizada', 1, 50, 'Kilogramos'),
+('Avena molida', 2, 300, 'Kilogramos'),
+('Pasto fresco', 2, 600, 'Kilogramos'),
+('Concentrado equino', 2, 150, 'Kilogramos'),
+('Maíz molido', 3, 120, 'Kilogramos'),
+('Agua tratada', 3, 200, 'Litros'),
+('Concentrado porcino', 4, 250, 'Kilogramos'),
+('Suero de leche', 4, 80, 'Litros');
+
 #procedimientos almacenados alimento
 CREATE PROCEDURE InsertarAlimento 
 (
@@ -219,6 +358,7 @@ CREATE PROCEDURE ActualizarAlimento(
     IN p_id_alimento TINYINT UNSIGNED,
     IN p_descripcion VARCHAR(40),
     IN p_cantidad SMALLINT UNSIGNED,
+    IN p_tipo ENUM('Kilogramos','Litros'),
     IN p_especie TINYINT UNSIGNED
 )
     UPDATE Alimento
@@ -247,16 +387,56 @@ CREATE TABLE Alimentacion(
     fecha DATE DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
+SELECT 
+    E.nombre AS especie,
+    SUM(A.cantidad) AS total_consumido,
+    AL.tipo_medida
+FROM  Alimentacion A
+JOIN Especie E ON A.especie = E.id_especie
+JOIN Alimento AL ON A.alimento = AL.id_alimento
+GROUP BY E.nombre, AL.tipo_medida;
 
 #procedimientos almacenados
+DELIMITER //
 CREATE PROCEDURE InsertarAlimentacion(
     IN p_especie TINYINT UNSIGNED,
     IN p_alimento TINYINT UNSIGNED,
     IN p_cantidad SMALLINT UNSIGNED
 )
-    INSERT INTO Alimentacion(animal, alimento, cantidad) 
-    VALUES (p_animal, p_alimento, p_cantidad);
+BEGIN
+    INSERT INTO Alimentacion(especie, alimento, cantidad) 
+    VALUES (p_especie, p_alimento, p_cantidad);
+	
+    UPDATE Alimento
+    SET cantidad = cantidad - p_cantidad
+    WHERE id_alimento = p_alimento;
+END //
+DELIMITER ;
 
+CALL InsertarAlimentacion(1, 1, 50); -- Vaca, Heno seco
+CALL InsertarAlimentacion(1, 2, 30); -- Vaca, Concentrado bovino
+CALL InsertarAlimentacion(1, 3, 20); -- Vaca, Sal mineralizada
+CALL InsertarAlimentacion(2, 4, 40); -- Caballo, Avena molida
+CALL InsertarAlimentacion(2, 5, 60); -- Caballo, Pasto fresco
+CALL InsertarAlimentacion(2, 6, 25); -- Caballo, Concentrado equino
+CALL InsertarAlimentacion(3, 7, 70); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(3, 8, 50); -- Gallina, Agua tratada
+CALL InsertarAlimentacion(4, 9, 15); -- Cerdo, Concentrado porcino
+CALL InsertarAlimentacion(4, 10, 35); -- Cerdo, Suero de leche
+CALL InsertarAlimentacion(1, 1, 40); -- Vaca, Heno seco
+CALL InsertarAlimentacion(1, 2, 50); -- Vaca, Concentrado bovino
+CALL InsertarAlimentacion(1, 3, 30); -- Vaca, Sal mineralizada
+CALL InsertarAlimentacion(2, 4, 20); -- Caballo, Avena molida
+CALL InsertarAlimentacion(2, 5, 80); -- Caballo, Pasto fresco
+CALL InsertarAlimentacion(2, 6, 40); -- Caballo, Concentrado equino
+CALL InsertarAlimentacion(3, 7, 60); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(3, 8, 120); -- Gallina, Agua tratada
+CALL InsertarAlimentacion(4, 9, 10); -- Cerdo, Concentrado porcino
+CALL InsertarAlimentacion(4, 10, 40); -- Cerdo, Suero de leche
+CALL InsertarAlimentacion(1, 1, 30); -- Vaca, Heno seco
+CALL InsertarAlimentacion(2, 5, 50); -- Caballo, Pasto fresco
+CALL InsertarAlimentacion(3, 7, 80); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(4, 9, 20); -- Cerdo, Concentrado porcino
 
 CREATE PROCEDURE ConsultaGeneralAlimentacion()
 	SELECT 
@@ -264,6 +444,7 @@ CREATE PROCEDURE ConsultaGeneralAlimentacion()
         Especie.nombre AS "especie",
         Alimento.descripcion AS "alimento",
         Alimentacion.cantidad,
+        Alimento.tipo_medida,
         Alimentacion.fecha
     FROM Alimentacion
     INNER JOIN Alimento ON Alimento.id_alimento = Alimentacion.alimento
@@ -293,26 +474,89 @@ CREATE TABLE Produccion(
 	id_produccion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo_produccion VARCHAR(255) NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
-    fecha DATE DEFAULT CURRENT_TIMESTAMP,
+    tipo_medida ENUM('Kilogramos','Litros') NOT NULL,
+    fecha DATE NOT NULL,
     especie TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (especie) REFERENCES Especie(id_especie),
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
+
 
 #procedimientos almacenados produccion
 CREATE PROCEDURE InsertarProduccion
 (
     IN p_tipo_produccion VARCHAR(255),
     IN p_cantidad SMALLINT UNSIGNED,
-    IN p_animal SMALLINT UNSIGNED
+    IN p_tipo ENUM('Kilogramos','Litros'),
+    IN p_especie SMALLINT UNSIGNED
 )
-    INSERT INTO Produccion (tipo_produccion, cantidad, animal) 
-    VALUES (p_tipo_produccion, p_cantidad, p_animal);
+    INSERT INTO Produccion (tipo_produccion, cantidad,tipo_medida,fecha, especie) 
+    VALUES (p_tipo_produccion, p_cantidad,p_tipo,CURRENT_TIMESTAMP, p_especie);
+
+
+CREATE PROCEDURE InsertarProduccionConFecha
+(
+    IN p_tipo_produccion VARCHAR(255),
+    IN p_cantidad SMALLINT UNSIGNED,
+    IN p_tipo ENUM('Kilogramos','Litros'),
+    IN p_fecha DATE,
+    IN p_especie SMALLINT UNSIGNED
+)
+    INSERT INTO Produccion (tipo_produccion, cantidad, tipo_medida, fecha, especie)
+    VALUES (p_tipo_produccion, p_cantidad, p_tipo, p_fecha, p_especie);
+-- Enero
+CALL InsertarProduccionConFecha('Leche', 120, 'Litros', '2025-01-05', 1);
+CALL InsertarProduccionConFecha('Huevos', 250, 'Kilogramos', '2025-01-12', 3);
+CALL InsertarProduccionConFecha('Carne', 80, 'Kilogramos', '2025-01-22', 4);
+-- Febrero
+CALL InsertarProduccionConFecha('Leche', 140, 'Litros', '2025-02-03', 1);
+CALL InsertarProduccionConFecha('Huevos', 270, 'Kilogramos', '2025-02-15', 3);
+CALL InsertarProduccionConFecha('Carne', 75, 'Kilogramos', '2025-02-24', 4);
+-- Marzo
+CALL InsertarProduccionConFecha('Leche', 135, 'Litros', '2025-03-10', 1);
+CALL InsertarProduccionConFecha('Huevos', 260, 'Kilogramos', '2025-03-18', 3);
+CALL InsertarProduccionConFecha('Carne', 85, 'Kilogramos', '2025-03-25', 4);
+-- Abril
+CALL InsertarProduccionConFecha('Leche', 155, 'Litros', '2025-04-08', 1);
+CALL InsertarProduccionConFecha('Huevos', 280, 'Kilogramos', '2025-04-16', 3);
+CALL InsertarProduccionConFecha('Carne', 90, 'Kilogramos', '2025-04-27', 4);
+-- Mayo
+CALL InsertarProduccionConFecha('Leche', 160, 'Litros', '2025-05-06', 1);
+CALL InsertarProduccionConFecha('Huevos', 300, 'Kilogramos', '2025-05-15', 3);
+CALL InsertarProduccionConFecha('Carne', 100, 'Kilogramos', '2025-05-23', 4);
+-- Junio
+CALL InsertarProduccionConFecha('Leche', 145, 'Litros', '2025-06-04', 1);
+CALL InsertarProduccionConFecha('Huevos', 290, 'Kilogramos', '2025-06-14', 3);
+CALL InsertarProduccionConFecha('Carne', 110, 'Kilogramos', '2025-06-29', 4);
+-- Julio
+CALL InsertarProduccionConFecha('Leche', 170, 'Litros', '2025-07-02', 1);
+CALL InsertarProduccionConFecha('Huevos', 310, 'Kilogramos', '2025-07-11', 3);
+CALL InsertarProduccionConFecha('Carne', 95, 'Kilogramos', '2025-07-25', 4);
+-- Agosto
+CALL InsertarProduccionConFecha('Leche', 165, 'Litros', '2025-08-09', 1);
+CALL InsertarProduccionConFecha('Huevos', 305, 'Kilogramos', '2025-08-19', 3);
+CALL InsertarProduccionConFecha('Carne', 105, 'Kilogramos', '2025-08-27', 4);
+-- Septiembre
+CALL InsertarProduccionConFecha('Leche', 150, 'Litros', '2025-09-03', 1);
+CALL InsertarProduccionConFecha('Huevos', 295, 'Kilogramos', '2025-09-13', 3);
+CALL InsertarProduccionConFecha('Carne', 100, 'Kilogramos', '2025-09-22', 4);
+-- Octubre
+CALL InsertarProduccionConFecha('Leche', 175, 'Litros', '2025-10-06', 1);
+CALL InsertarProduccionConFecha('Huevos', 320, 'Kilogramos', '2025-10-18', 3);
+CALL InsertarProduccionConFecha('Carne', 115, 'Kilogramos', '2025-10-29', 4);
+-- Noviembre
+CALL InsertarProduccionConFecha('Leche', 160, 'Litros', '2025-11-04', 1);
+CALL InsertarProduccionConFecha('Huevos', 310, 'Kilogramos', '2025-11-15', 3);
+CALL InsertarProduccionConFecha('Carne', 120, 'Kilogramos', '2025-11-24', 4);
+-- Diciembre
+CALL InsertarProduccionConFecha('Leche', 180, 'Litros', '2025-12-07', 1);
+CALL InsertarProduccionConFecha('Huevos', 330, 'Kilogramos', '2025-12-17', 3);
+CALL InsertarProduccionConFecha('Carne', 125, 'Kilogramos', '2025-12-27', 4);
 
 
 CREATE PROCEDURE ConsultaGeneralProduccion()
-	SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.fecha,Especie.nombre 
-    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado=1;
+	SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.tipo_medida,Produccion.fecha,Especie.nombre 
+    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado='Activo' ORDER BY Produccion.id_produccion;
 
 
 CREATE PROCEDURE ConsultarProduccionPorID(	
@@ -435,7 +679,6 @@ IN p_id_transaccion INT
    SELECT * FROM Finanzas
    WHERE id_transaccion = p_id_transaccion AND estado=1;
 
-call ConsultarfinanzasPorID(2);
 
 CREATE PROCEDURE Actualizarfinanzas
 (

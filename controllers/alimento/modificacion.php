@@ -23,8 +23,11 @@
         $id_alimento = $_POST['id_alimento'];
         $descripcion = $_POST['descripcion'];
         $cantidad = $_POST['cantidad'];
+        $tipo = $_POST['tipo_medida'];
+        $especie = $_POST['especie'];
 
-        $sql = "CALL ActualizarAlimento('$id_alimento','$descripcion','$cantidad');";
+
+        $sql = "CALL ActualizarAlimento('$id_alimento','$descripcion','$cantidad','$tipo','$especie');";
 
         if ($conn->query($sql)) {
             $script = "

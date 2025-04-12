@@ -24,7 +24,7 @@
         $alimento = $_POST ['alimento'];
         $cantidad = $_POST ['cantidad'];
 
-        $sql= "INSERT INTO Alimentacion (especie,alimento,cantidad) VALUES ('$especie', '$alimento', '$cantidad');";
+        $sql= "CALL InsertarAlimentacion($especie,$alimento,$cantidad);";
         if ($conn -> query($sql) === TRUE){
             $script = "
                 Swal.fire({

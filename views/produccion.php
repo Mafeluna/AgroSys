@@ -99,6 +99,12 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
+                  Unidad de medida
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
                   fecha
                 </th>
                 <th
@@ -135,6 +141,9 @@
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['cantidad']?>
+              </td>
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['tipo_medida']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['fecha']?>
@@ -194,7 +203,24 @@
                   required
                 />
               </div>
-
+              <div class="mb-5">
+              <label
+                for="tipo_medida"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Tipo de medida:
+              </label>
+              <select
+                name="tipo_medida"
+                id="tipo_medida"
+                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                required
+              >
+                <option value="" selected>-</option>
+                <option value="1">Kilogramos</option>
+                <option value="2">Litros</option>
+            </select>
+            </div>
               <div class="mb-5">
                 <label
                   for="especie"

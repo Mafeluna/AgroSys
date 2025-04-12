@@ -5,9 +5,6 @@
     exit();
   }
 
-  header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-  header("Cache-Control: post-check=0, pre-check=0", false);
-  header("Pragma: no-cache");
 
   include "../models/m_especie.php";
   include "../models/m_alimento.php";
@@ -112,6 +109,12 @@
                   scope="col"
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
+                  Unidad de Medida
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
                   fecha
                 </th>
                 <th
@@ -146,6 +149,9 @@
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['cantidad']?>
+              </td>
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['tipo_medida']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['fecha']?>

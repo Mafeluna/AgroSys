@@ -26,8 +26,9 @@
         $tipo_produccion=$_POST["tipo_produccion"];
         $cantidad = $_POST["cantidad"];
         $especie = $_POST["especie"];
+        $tipo = $_POST['tipo_medida'];
 
-        $sql = "INSERT INTO Produccion (tipo_produccion,cantidad,especie) VALUES ('$tipo_produccion', $cantidad, $especie)";
+        $sql = "CALL InsertarProduccion ('$tipo_produccion', $cantidad,$tipo, $especie)";
 
         if ($conn->query($sql) === TRUE) {
             $script = "

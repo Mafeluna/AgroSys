@@ -62,26 +62,26 @@ $pdf->Ln(5);
 
 // Cabecera de la tabla
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(10, 10, 'ID', 1);
-$pdf->Cell(25, 10, 'Nombre', 1);
-$pdf->Cell(25, 10, 'Apellido', 1);
-$pdf->Cell(30, 10, 'Documento', 1);
-$pdf->Cell(60, 10, 'Email', 1);
-$pdf->Cell(40, 10, 'Rol', 1);
+$pdf->Cell(10, 10, 'ID', 1, 0, 'C');
+$pdf->Cell(25, 10, 'Nombre', 1, 0, 'C');
+$pdf->Cell(25, 10, 'Apellido', 1, 0, 'C');
+$pdf->Cell(30, 10, 'Documento', 1, 0, 'C');
+$pdf->Cell(60, 10, 'Email', 1, 0, 'C');
+$pdf->Cell(40, 10, 'Rol', 1, 0, 'C');
 $pdf->Ln();
 
 // Cuerpo de la tabla
 $pdf->SetFont('Arial', '', 9);
 while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
-  $pdf->Cell(10, 10, $fila['id_usuario'], 1);
-  $pdf->Cell(25, 10, utf8_decode($fila['nombre']), 1);
-  $pdf->Cell(25, 10, utf8_decode($fila['apellido']), 1);
-  $pdf->Cell(30, 10, $fila['documento'], 1);
-  $pdf->Cell(60, 10, utf8_decode($fila['email']), 1);
-  $pdf->Cell(40, 10, utf8_decode($fila['rol']), 1);
+  $pdf->Cell(10, 10, $fila['id_usuario'], 1, 0, 'C');
+  $pdf->Cell(25, 10, utf8_decode($fila['nombre']), 1, 0, 'C');
+  $pdf->Cell(25, 10, utf8_decode($fila['apellido']), 1, 0, 'C');
+  $pdf->Cell(30, 10, $fila['documento'], 1, 0, 'C');
+  $pdf->Cell(60, 10, utf8_decode($fila['email']), 1, 0, 'C');
+  $pdf->Cell(40, 10, utf8_decode($fila['rol']), 1, 0, 'C');
   $pdf->Ln();
 }
-$pdf->Ln(10);
+$pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, 'Grafica Usuarios por Rol', 0, 1, 'C');
 $pdf->Ln(5);
