@@ -81,6 +81,7 @@ while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
   $pdf->Cell(40, 10, utf8_decode($fila['rol']), 1, 0, 'C');
   $pdf->Ln();
 }
+
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, 'Grafica Usuarios por Rol', 0, 1, 'C');

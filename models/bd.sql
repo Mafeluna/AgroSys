@@ -608,10 +608,44 @@ CREATE PROCEDURE InsertarHistorial(
     (animal, descripcion, tratamiento) 
     VALUES (p_animal, p_descripcion, p_tratamiento);
 
+CALL InsertarHistorial(1, 'Consulta general para chequeo anual', 'Vacunación y análisis de sangre');
+CALL InsertarHistorial(2, 'Revisión post-operatoria', 'Administración de antibióticos y analgésicos');
+CALL InsertarHistorial(3, 'Chequeo dental', 'Limpieza dental y revisión de encías');
+CALL InsertarHistorial(4, 'Evaluación de comportamiento', 'Aplicación de suplemento nutricional');
+CALL InsertarHistorial(5, 'Examen de rutina', 'Desparasitación interna y externa');
+CALL InsertarHistorial(1, 'Lesión en pata delantera', 'Curación de herida y vendaje');
+CALL InsertarHistorial(2, 'Signos de infección respiratoria', 'Tratamiento con antibióticos y descanso');
+CALL InsertarHistorial(3, 'Dolor abdominal', 'Análisis clínico y dieta blanda');
+CALL InsertarHistorial(4, 'Control de peso', 'Plan de alimentación y ejercicio');
+CALL InsertarHistorial(5, 'Revisión ocular', 'Limpieza y aplicación de colirios');
+CALL InsertarHistorial(1, 'Problemas de piel', 'Aplicación de crema antiinflamatoria');
+CALL InsertarHistorial(2, 'Consulta preventiva', 'Evaluación general y vacunación complementaria');
+CALL InsertarHistorial(3, 'Estrés post traslado', 'Administración de sedante leve');
+CALL InsertarHistorial(4, 'Chequeo cardiológico', 'Ecodoppler y seguimiento');
+CALL InsertarHistorial(5, 'Problemas digestivos', 'Cambio de dieta y probióticos');
+CALL InsertarHistorial(1, 'Herida en cola', 'Sutura y seguimiento');
+CALL InsertarHistorial(2, 'Revisión de articulaciones', 'Suplemento para articulaciones y fisioterapia');
+CALL InsertarHistorial(3, 'Lesión leve en oreja', 'Limpieza, desinfección y vendaje');
+CALL InsertarHistorial(4, 'Chequeo de visión', 'Examen ocular y prescripción de colirios');
+CALL InsertarHistorial(5, 'Chequeo post vacunación', 'Monitoreo y análisis de reacción');
+CALL InsertarHistorial(1, 'Alérgia estacional', 'Antihistamínico y cambios en la dieta');
+CALL InsertarHistorial(2, 'Dolor articular', 'Fisioterapia y medicación antiinflamatoria');
+CALL InsertarHistorial(3, 'Consulta de seguimiento', 'Revisión y ajustes en tratamiento');
+CALL InsertarHistorial(4, 'Signos de deshidratación', 'Hidratación intravenosa y reposo');
+CALL InsertarHistorial(5, 'Chequeo pre-competencia', 'Examen físico y evaluación de condición física');
+CALL InsertarHistorial(1, 'Inspección de heridas leves', 'Limpieza y aplicación de pomada');
+CALL InsertarHistorial(2, 'Revisión de pérdida de apetito', 'Evaluación nutricional y suplementación');
+CALL InsertarHistorial(3, 'Consulta por letargo', 'Análisis de energía y niveles hormonales');
+CALL InsertarHistorial(4, 'Control de signos vitales', 'Monitoreo y recomendación de actividad moderada');
+CALL InsertarHistorial(5, 'Evaluación por tos persistente', 'Estudio respiratorio y prescripción de broncodilatador');
 
 CREATE PROCEDURE ConsultaGeneralHistorial()
-	SELECT historial_clinico.id_historial, historial_clinico.fecha, Animal.nombre as "animal" ,historial_clinico.descripcion,historial_clinico.tratamiento 
-    FROM Animal INNER JOIN Historial_clinico ON Historial_clinico.animal=Animal.id_animal WHERE Historial_clinico.estado=1;
+	SELECT historial_clinico.id_historial, historial_clinico.fecha, Animal.nombre as "animal",Especie.nombre as "especie" ,historial_clinico.descripcion,historial_clinico.tratamiento 
+    FROM Especie 
+    INNER JOIN Animal ON Especie.id_especie = Animal.especie 
+    INNER JOIN Historial_clinico ON Historial_clinico.animal=Animal.id_animal 
+    WHERE Historial_clinico.estado=1
+    ORDER BY Historial_clinico.id_historial;
 
 
 CREATE PROCEDURE ConsultarhistorialPorID (
@@ -654,20 +688,33 @@ CREATE TABLE Finanzas (
     FOREIGN KEY (registrado_por) REFERENCES usuario(id_usuario),
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
-
-
+SELECT 
+    SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) AS total_ingresos,
+    SUM(CASE WHEN tipo = 'egreso' THEN monto ELSE 0 END) AS total_egresos
+FROM Finanzas
+WHERE estado = 'Activo';
 #procedimientos almacenados finanzas
 CREATE PROCEDURE InsertarFinanzas
 (
     IN p_tipo ENUM('ingreso', 'egreso'),
     IN p_monto DECIMAL(15,2),
     IN p_descripcion TEXT,
-    IN p_fecha DATE,
     IN p_registrado_por TINYINT UNSIGNED
 )
     INSERT INTO Finanzas
-    (tipo, monto, descripcion, fecha, registrado_por) 
-    VALUES (p_tipo, p_monto, p_descripcion, p_fecha, p_registrado_por);
+    (tipo, monto, descripcion, registrado_por) 
+    VALUES (p_tipo, p_monto, p_descripcion, p_registrado_por);
+
+CALL InsertarFinanzas('ingreso', 2500000.00, 'Venta de productos agrícolas', 1);
+CALL InsertarFinanzas('egreso', 350000.00, 'Compra de alimento para ganado', 1);
+CALL InsertarFinanzas('ingreso', 1250000.00, 'Subsidio estatal recibido', 1);
+CALL InsertarFinanzas('egreso', 200000.00, 'Pago de servicios públicos', 1);
+CALL InsertarFinanzas('egreso', 450000.00, 'Mantenimiento de maquinaria', 1);
+CALL InsertarFinanzas('ingreso', 980000.00, 'Ingreso por asesoría técnica', 1);
+CALL InsertarFinanzas('ingreso', 500000.00, 'Reembolso de gastos operativos', 1);
+CALL InsertarFinanzas('egreso', 120000.00, 'Transporte de productos', 1);
+CALL InsertarFinanzas('ingreso', 2100000.00, 'Venta de leche', 1);
+CALL InsertarFinanzas('egreso', 700000.00, 'Compra de insumos agrícolas', 1);
 
 CREATE PROCEDURE ConsultaGeneralFinanzas()
 	SELECT id_transaccion,tipo,monto,descripcion,fecha,nombre FROM Usuario INNER JOIN Finanzas ON id_usuario=registrado_por WHERE Finanzas.estado=1;

@@ -60,10 +60,10 @@
           </button>
           <button
             id="btn-user"
-            class="bg-red-500 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
-            onclick="window.location.href='rep_clinico.php'";
+            class="bg-red-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+            onclick="window.open('../controllers/historial/generarpdf.php', '_blank')"
           >
-           Exportar en Excel
+            Generar PDF
           </button>
         </header>
         <article class="w-full p-5">
@@ -90,6 +90,12 @@
                   class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
                 >
                   animal
+                </th>
+                <th
+                  scope="col"
+                  class="border-e border-neutral-800 px-3 py-2 uppercase text-lg"
+                >
+                  especie
                 </th>
                 <th
                   scope="col"
@@ -132,6 +138,9 @@
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['animal']?>
+              </td>
+              <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
+                <?php echo $valor['especie']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['descripcion']?>
