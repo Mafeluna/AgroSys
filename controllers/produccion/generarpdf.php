@@ -24,19 +24,21 @@
   // Encabezados de la tabla
   $pdf->SetFont('Arial', 'B', 10);
   $pdf->Cell(20, 10, 'ID', 1, 0, 'C');
-  $pdf->Cell(50, 10, 'Tipo', 1, 0, 'C');
+  $pdf->Cell(30, 10, 'Tipo', 1, 0, 'C');
   $pdf->Cell(30, 10, 'Cantidad', 1, 0, 'C');
+  $pdf->Cell(35, 10, 'Unidad de medida', 1, 0, 'C');
   $pdf->Cell(40, 10, 'Fecha', 1, 0, 'C');
-  $pdf->Cell(50, 10, 'Especie', 1, 1, 'C');
+  $pdf->Cell(30, 10, 'Especie', 1, 1, 'C');
 
   // Cuerpo de la tabla
   $pdf->SetFont('Arial', '', 10);
   while ($fila = $resultado->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(20, 10, $fila['id_produccion'], 1, 0, 'C');
-    $pdf->Cell(50, 10, utf8_decode($fila['tipo_produccion']), 1, 0, 'C');
+    $pdf->Cell(30, 10, utf8_decode($fila['tipo_produccion']), 1, 0, 'C');
     $pdf->Cell(30, 10, $fila['cantidad'], 1, 0, 'C');
+    $pdf->Cell(35, 10, $fila['tipo_medida'], 1, 0, 'C');
     $pdf->Cell(40, 10, $fila['fecha'], 1, 0, 'C');
-    $pdf->Cell(50, 10, utf8_decode($fila['nombre']), 1, 1, 'C');
+    $pdf->Cell(30, 10, utf8_decode($fila['nombre']), 1, 1, 'C');
   }
 
   //grafica

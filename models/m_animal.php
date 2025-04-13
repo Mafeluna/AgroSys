@@ -72,12 +72,14 @@
         return 1;
       }
   
-      public function eliminar($id){
-        $this->id_animal = $id;
+      public function eliminar($data){
+        $this->id_animal = $data['id'];
+        $this->especie = $data['especie'];
   
         include "conexion.php";
-        $eliminar = $conexion->prepare("CALL EliminarAnimal(?)");
+        $eliminar = $conexion->prepare("CALL EliminarAnimal(?,?)");
         $eliminar->bindParam(1,$this->id_animal);
+        $eliminar->bindParam(2,$this->especie);
         $eliminar->execute();
   
         return 1;

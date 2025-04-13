@@ -40,13 +40,11 @@
     public function modificar($datos){
       $this->id_especie = $datos['id_especie'];
       $this->nombre = $datos['nombre'];
-      $this->cantidad = $datos['cantidad'];
 
       include "conexion.php";
-      $modificar = $conexion->prepare("CALL ModificarEspecie(?,?,?)");
+      $modificar = $conexion->prepare("CALL ModificarEspecie(?,?)");
       $modificar->bindParam(1,$this->id_especie);
       $modificar->bindParam(2,$this->nombre);
-      $modificar->bindParam(3,$this->cantidad);
       $modificar->execute();
 
       return 1;

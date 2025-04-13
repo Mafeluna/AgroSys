@@ -80,22 +80,6 @@
                   value="<?php echo $respuesta[0]['nombre'] ?>"
                 />
               </div>
-              <div class="mb-5">
-                <label
-                  for="cantidad"
-                  class="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Cantidad:
-                </label>
-                <input
-                  type="number"
-                  name="cantidad"
-                  id="cantidad"
-                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
-                  value="<?php echo $respuesta[0]['cantidad'] ?>"
-                />
-              </div>
               <input type="hidden" name="id_especie" value="<?php echo $respuesta[0]['id_especie'] ?>">
               <div class="w-full flex justify-center mt-5">
                 <button

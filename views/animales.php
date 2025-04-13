@@ -55,6 +55,13 @@
             <ion-icon name="add-outline"></ion-icon>
             Registrar Animal
           </button>
+          <button
+            id="btn-user"
+            class="bg-green-300 duration-150 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+            onclick="window.open('../controllers/animal/excel.php', '_blank')"
+          >
+            Generar Excel
+          </button>
           <?php
             $instancia3 = new especie();
             $especies = $instancia3->consultaGeneral();
@@ -130,7 +137,7 @@
               <a href="consultaModAnimal.php?section=animales&&id_animal=<?php echo $valor['id_animal']; ?>" class="text-2xl text-yellow-500">
                 <ion-icon name="create-outline"></ion-icon>                
               </a>
-              <a href="animales.php?section=animales&&id=<?php echo $valor['id_animal'] ?>">
+              <a href="animales.php?section=animales&&id=<?php echo $valor['id_animal'] ?>&&especie=<?php echo $valor['id_especie'] ?>">
                 <ion-icon name="trash-outline" class="text-2xl text-red-500"></ion-icon>
               </a>
             </div>
@@ -247,7 +254,8 @@
               <div class="flex justify-evenly">
               <button class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75" onclick="window.location.href='animales.php?section=animales'">Cancelar</button>
               <form action="../controllers/animal/eliminar.php" method="post">
-                <input type="hidden" name="id_animal" value="<?php echo $_GET['id'] ?>">
+                <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
+                <input type="hidden" name="especie" value="<?php echo $_GET['especie'] ?>">
                 <button class="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Eliminar</button>
               </form>
               </div>

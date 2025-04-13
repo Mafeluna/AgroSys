@@ -73,6 +73,13 @@
           >
             Generar PDF
           </button>
+          <button
+            id="btn-user"
+            class="bg-green-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold"
+            onclick="window.open('../controllers/alimento/excel.php', '_blank')"
+          >
+            Generar Excel
+          </button>
           <div class="w-5/6 flex items-center pl-5">
         </header>
         <article class="w-full p-5">

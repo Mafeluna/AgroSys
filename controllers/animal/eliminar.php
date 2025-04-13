@@ -20,7 +20,7 @@
     <?php
     include "../../models/m_animal.php";
     $instancia = new animal();
-    $respuesta = $instancia->eliminar($_POST['id_animal']); 
+    $respuesta = $instancia->eliminar($_POST); 
     $script = "";
     if($respuesta == 1){
       $script = "
