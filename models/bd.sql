@@ -274,7 +274,7 @@ CREATE PROCEDURE ConsultaGeneralAnimal()
 CREATE PROCEDURE ConsultaPorEspecie(
 	IN p_especie VARCHAR(50)
 )
-	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
+	SELECT Animal.id_animal,Animal.nombre,Especie.id_especie as "id_especie",Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
     FROM Usuario 
     INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND Especie.nombre = p_especie;
     
@@ -298,13 +298,21 @@ CREATE PROCEDURE ModificarAnimal(
         peso = p_peso
     WHERE id_animal = p_id_animal;
 
+DELIMITER //
 CREATE PROCEDURE EliminarAnimal(
-    IN p_id_animal SMALLINT UNSIGNED
+    IN p_id_animal SMALLINT UNSIGNED,
+    IN p_especie TINYINT UNSIGNED
 )
+BEGIN
     UPDATE Animal
     SET estado = 2
     WHERE id_animal = p_id_animal;
-
+    
+    UPDATE Especie
+    SET cantidad = cantidad-1
+    WHERE id_especie = p_especie;
+END //
+DELIMITER ;
 
 #----------------------------------------------------------------------------------------------------
 CREATE TABLE Alimento(
@@ -344,8 +352,7 @@ CREATE PROCEDURE InsertarAlimento
 
 CREATE PROCEDURE ConsultaGeneralAlimento()
 	SELECT Alimento.id_alimento,Alimento.descripcion,Especie.nombre as "especie",Alimento.cantidad,Alimento.tipo_medida
-    FROM Alimento INNER JOIN Especie ON Alimento.especie = Especie.id_especie WHERE Alimento.estado=1;
-
+    FROM Alimento INNER JOIN Especie ON Alimento.especie = Especie.id_especie WHERE Alimento.estado=1 ORDER BY Alimento.id_alimento;
 
 CREATE PROCEDURE ConsultarAlimentoPorID(
     IN p_id_alimento TINYINT UNSIGNED
@@ -387,14 +394,6 @@ CREATE TABLE Alimentacion(
     fecha DATE DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
-SELECT 
-    E.nombre AS especie,
-    SUM(A.cantidad) AS total_consumido,
-    AL.tipo_medida
-FROM  Alimentacion A
-JOIN Especie E ON A.especie = E.id_especie
-JOIN Alimento AL ON A.alimento = AL.id_alimento
-GROUP BY E.nombre, AL.tipo_medida;
 
 #procedimientos almacenados
 DELIMITER //
@@ -417,10 +416,10 @@ CALL InsertarAlimentacion(1, 1, 50); -- Vaca, Heno seco
 CALL InsertarAlimentacion(1, 2, 30); -- Vaca, Concentrado bovino
 CALL InsertarAlimentacion(1, 3, 20); -- Vaca, Sal mineralizada
 CALL InsertarAlimentacion(2, 4, 40); -- Caballo, Avena molida
-CALL InsertarAlimentacion(2, 5, 60); -- Caballo, Pasto fresco
+CALL InsertarAlimentacion(2, 5, 40); -- Caballo, Pasto fresco
 CALL InsertarAlimentacion(2, 6, 25); -- Caballo, Concentrado equino
-CALL InsertarAlimentacion(3, 7, 70); -- Gallina, Maíz molido
-CALL InsertarAlimentacion(3, 8, 50); -- Gallina, Agua tratada
+CALL InsertarAlimentacion(3, 7, 40); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(3, 8, 30); -- Gallina, Agua tratada
 CALL InsertarAlimentacion(4, 9, 15); -- Cerdo, Concentrado porcino
 CALL InsertarAlimentacion(4, 10, 35); -- Cerdo, Suero de leche
 CALL InsertarAlimentacion(1, 1, 40); -- Vaca, Heno seco
@@ -429,13 +428,13 @@ CALL InsertarAlimentacion(1, 3, 30); -- Vaca, Sal mineralizada
 CALL InsertarAlimentacion(2, 4, 20); -- Caballo, Avena molida
 CALL InsertarAlimentacion(2, 5, 80); -- Caballo, Pasto fresco
 CALL InsertarAlimentacion(2, 6, 40); -- Caballo, Concentrado equino
-CALL InsertarAlimentacion(3, 7, 60); -- Gallina, Maíz molido
-CALL InsertarAlimentacion(3, 8, 120); -- Gallina, Agua tratada
+CALL InsertarAlimentacion(3, 7, 20); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(3, 8, 40); -- Gallina, Agua tratada
 CALL InsertarAlimentacion(4, 9, 10); -- Cerdo, Concentrado porcino
 CALL InsertarAlimentacion(4, 10, 40); -- Cerdo, Suero de leche
 CALL InsertarAlimentacion(1, 1, 30); -- Vaca, Heno seco
 CALL InsertarAlimentacion(2, 5, 50); -- Caballo, Pasto fresco
-CALL InsertarAlimentacion(3, 7, 80); -- Gallina, Maíz molido
+CALL InsertarAlimentacion(3, 7, 20); -- Gallina, Maíz molido
 CALL InsertarAlimentacion(4, 9, 20); -- Cerdo, Concentrado porcino
 
 CREATE PROCEDURE ConsultaGeneralAlimentacion()
@@ -578,7 +577,6 @@ CREATE PROCEDURE ActualizarProduccion(
         especie = p_especie
     WHERE id_produccion = p_id_produccion;
 
-CALL ActualizarProduccion(1,"leche",34,5);
 CREATE PROCEDURE EliminarProduccion(
     IN p_id_produccion INT UNSIGNED
 )
@@ -717,7 +715,7 @@ CALL InsertarFinanzas('ingreso', 2100000.00, 'Venta de leche', 1);
 CALL InsertarFinanzas('egreso', 700000.00, 'Compra de insumos agrícolas', 1);
 
 CREATE PROCEDURE ConsultaGeneralFinanzas()
-	SELECT id_transaccion,tipo,monto,descripcion,fecha,nombre FROM Usuario INNER JOIN Finanzas ON id_usuario=registrado_por WHERE Finanzas.estado=1;
+	SELECT id_transaccion,tipo,monto,descripcion,fecha,nombre,apellido FROM Usuario INNER JOIN Finanzas ON id_usuario=registrado_por WHERE Finanzas.estado=1;
     
 
 CREATE PROCEDURE ConsultarfinanzasPorID(
