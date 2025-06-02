@@ -130,8 +130,10 @@ $urlPdf = "./reportes/" . $nombreArchivo;
   <script>
     // Abrir en una nueva pestaña
     window.open("<?php echo $urlPdf; ?>", "_blank");
-    // Redirigir la pestaña actual a otra página o mostrar un mensaje si lo deseas
+    // Redirigir la pestaña actual
     window.location.href = "../../views/animales.php";
+
+
   </script>
 </head>
 <body>

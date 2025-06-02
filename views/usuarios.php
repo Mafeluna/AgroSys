@@ -222,7 +222,7 @@
         </section>
         <section class="w-full h-full justify-center items-center seccion flex-col" id="registerUser">
           <h2 class="text-3xl font-semibold">Registrar Usuario</h2>
-          <form action="../controllers/usuario/registro.php" method="POST" class="w-1/2">
+          <form action="../controllers/usuario/registro.php" method="POST" class="w-1/2" onsubmit="return false">
             <div class="mb-5">
               <label
                 for="nombre"
@@ -235,7 +235,6 @@
                 name="nombre"
                 id="nombre"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
             </div>
             <div class="mb-5">
@@ -354,11 +353,34 @@
             <div class="w-full flex justify-center">
               <button
                 class="hover:shadow-form rounded-md bg-lime-500 py-3 px-8 text-base font-semibold text-white outline-none"
+                id = "btn-users"
               >
                 Registrar
               </button>
             </div>
           </form>
+          <script>
+            btnFormUsers = document.getElementById("btn-users");
+            btnFormUsers.addEventListener('click', function(){
+              //campos
+              const nombre = document.getElementById("nombre");
+              const apellido = document.getElementById("apellido");
+              const documento = document.getElementById("documento");
+              const email = document.getElementById("email");
+              const clave = document.getElementById("clave");
+              const rol = document.getElementById("rol");
+              const telefono = document.getElementById("telefono");
+              const direccion = document.getElementById("dirección");
+
+              //regex
+              const regexNombre = /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/;
+
+              if(!regexNombre.test(nombre.value) && nombre.value.trim() == ""){
+                nombre.classList.remove("border-slate-300")
+                nombre.classList.add("border-red-300");
+              }
+            })
+          </script>
         </section>
         </article>
         <?php if(isset($_GET['id'])){ ?>
