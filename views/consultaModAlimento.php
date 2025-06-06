@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-alimentos.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -58,7 +59,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Modificar Alimento</h2>
-            <form action="../controllers/alimento/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/alimento/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-foods">
             <div class="mb-5 hidden">
               <label
                 for="id_alimento"
@@ -87,9 +88,9 @@
                 name="descripcion"
                 id="descripcion"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
                 value="<?php echo $respuesta[0]['descripcion'] ?>"
               />
+              <p id="mensaje-descripcion" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -103,9 +104,9 @@
                 name="cantidad"
                 id="cantidad"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
                 value="<?php echo $respuesta[0]['cantidad'] ?>"
               />
+              <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -118,12 +119,12 @@
                 name="tipo_medida"
                 id="tipo_medida"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               >
                 <option value="<?php echo $respuesta[0]['tipo_medida'] ?>" selected><?php echo $respuesta[0]['tipo_medida'] ?></option>
                 <option value="1">Kilogramos</option>
                 <option value="2">Litros</option>
             </select>
+            <p id="mensaje-tipoMedida" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -136,7 +137,6 @@
                 name="especie"
                 id="especie"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               >
                 <option value="<?php echo $respuesta[0]['id_especie'] ?>" selected><?php echo $respuesta[0]['especie'] ?></option>
                 <?php 
@@ -146,6 +146,7 @@
                 <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
                 <?php } ?>
               </select>
+              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
             </div>
               <input type="hidden" name="id_animal" value="<?php ?>">
               <div class="w-full flex justify-center mt-5">

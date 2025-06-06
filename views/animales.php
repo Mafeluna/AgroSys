@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-animales.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -157,10 +158,10 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Registrar Animal</h2>
-            <form action="../controllers/animal/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/animal/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-animals">
               <div class="mb-5">
                 <label
-                  for="nombre"
+                  for="codigo"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   CODIGO:
@@ -168,10 +169,10 @@
                 <input
                   type="number"
                   name="nombre"
-                  id="nombre"
+                  id="codigo"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-codigo" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
                 <label
@@ -184,7 +185,6 @@
                   name="especie"
                   id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                   <option value="" selected>-</option>
                   <?php
@@ -195,6 +195,7 @@
                     }
                   ?>
               </select>
+              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
                 <label
@@ -208,8 +209,8 @@
                   name="peso"
                   id="peso"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-peso" class="text-base text-center font-medium mb-4"></p>
               </div>
               <!-- <p class="mb-3 block text-base font-medium text-[#07074D]">Foto:</p>
               <div class="image-container flex justify-center items-center rounded-md border border-slate-300 w-full focus:outline-none focus:border-blue-400">

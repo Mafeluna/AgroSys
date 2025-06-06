@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-usuarios.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -222,7 +223,7 @@
         </section>
         <section class="w-full h-full justify-center items-center seccion flex-col" id="registerUser">
           <h2 class="text-3xl font-semibold">Registrar Usuario</h2>
-          <form action="../controllers/usuario/registro.php" method="POST" class="w-1/2" onsubmit="return false">
+          <form action="../controllers/usuario/registro.php" method="POST" class="w-1/2" id="form-users">
             <div class="mb-5">
               <label
                 for="nombre"
@@ -236,6 +237,7 @@
                 id="nombre"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
               />
+              <p id="mensaje-nombre" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -249,8 +251,8 @@
                 name="apellido"
                 id="apellido"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-apellido" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -264,8 +266,8 @@
                 name="documento"
                 id="documento"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-documento" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -279,8 +281,8 @@
                 name="email"
                 id="email"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-correo" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5 relative">
               <label
@@ -294,8 +296,8 @@
                 name="clave"
                 id="clave"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-clave" class="text-base text-center font-medium mb-4"></p>
               <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-12 text-lime-600 text-2xl">
                 <ion-icon id="eye-icon" name="eye"></ion-icon>
               </button>
@@ -311,7 +313,6 @@
                 name="rol"
                 id="rol"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               >
                 <option value="" selected>-</option>
                 <option value="1">Administrador</option>
@@ -319,6 +320,7 @@
                 <option value="3">Encargado produccion</option>
                 <option value="4">Veterinario</option>
             </select>
+            <p id="mensaje-rol" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -332,8 +334,8 @@
                 name="telefono"
                 id="telefono"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-telefono" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -347,8 +349,8 @@
                 name="direccion"
                 id="direccion"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               />
+              <p id="mensaje-direccion" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="w-full flex justify-center">
               <button
@@ -359,28 +361,6 @@
               </button>
             </div>
           </form>
-          <script>
-            btnFormUsers = document.getElementById("btn-users");
-            btnFormUsers.addEventListener('click', function(){
-              //campos
-              const nombre = document.getElementById("nombre");
-              const apellido = document.getElementById("apellido");
-              const documento = document.getElementById("documento");
-              const email = document.getElementById("email");
-              const clave = document.getElementById("clave");
-              const rol = document.getElementById("rol");
-              const telefono = document.getElementById("telefono");
-              const direccion = document.getElementById("dirección");
-
-              //regex
-              const regexNombre = /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/;
-
-              if(!regexNombre.test(nombre.value) && nombre.value.trim() == ""){
-                nombre.classList.remove("border-slate-300")
-                nombre.classList.add("border-red-300");
-              }
-            })
-          </script>
         </section>
         </article>
         <?php if(isset($_GET['id'])){ ?>

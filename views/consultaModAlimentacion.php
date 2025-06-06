@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-mod-alimentacion.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -57,7 +58,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Modificar Alimentacion</h2>
-            <form action="../controllers/alimentacion/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/alimentacion/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-mod-alimentation">
 
               <div class="mb-5 hidden">
                 <label
@@ -88,9 +89,9 @@
                   name="cantidad"
                   id="cantidad"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value="<?php echo $respuesta[0]['cantidad'] ?>"
                 />
+                <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="w-full flex justify-center mt-5">
                 <button

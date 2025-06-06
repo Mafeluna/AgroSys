@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-alimentacion.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -183,7 +184,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAlimentacion">
             <h2 class="text-3xl font-semibold">Registrar Alimentacion</h2>
-            <form action="../controllers/alimentacion/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/alimentacion/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-alimentation">
              
               <div class="mb-5">
                 <label
@@ -196,7 +197,6 @@
                   name="especie"
                   id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value="">-</option>
                 <?php 
@@ -209,6 +209,7 @@
                   }
                 ?>
               </select>
+              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
@@ -222,10 +223,10 @@
                   name="alimento"
                   id="alimento"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value="">-</option>
               </select>
+              <p id="mensaje-alimento" class="text-base text-center font-medium mb-4">ss</p>
               </div>
 
               <div class="mb-5">
@@ -240,8 +241,8 @@
                   name="cantidad"
                   id="cantidad"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="w-full flex justify-center mt-5">
@@ -266,7 +267,7 @@
                       console.log(alimentos); // <-- Checa esto en consola
 
                       const alimentoSelect = document.getElementById('alimento');
-                      alimentoSelect.innerHTML = '<option disabled selected>Seleccione un alimento</option>';
+                      alimentoSelect.innerHTML = '<option value = "" disabled selected>Seleccione un alimento</option>';
                       
                       alimentos.forEach(alimento => {
                         const option = document.createElement('option');

@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-mod-usuarios.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -53,7 +54,7 @@
         <article class="w-full p-5">
         <section class="w-full h-full justify-center items-center flex flex-col" id="registerUser">
           <h2 class="text-3xl font-semibold">Modificar Usuario</h2>
-          <form action="../controllers/usuario/modificacion.php" method="POST" class="w-1/2">
+          <form action="../controllers/usuario/modificacion.php" method="POST" class="w-1/2" id="form-users-mod">
             <div class="mb-5">
               <label
                 for="nombre"
@@ -69,6 +70,7 @@
                 required
                 value = "<?php echo $respuesta[0]['nombre'] ?>"
               />
+              <p id="mensaje-nombre" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -85,6 +87,7 @@
                 required
                 value = "<?php echo $respuesta[0]['apellido'] ?>"
               />
+              <p id="mensaje-apellido" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -101,6 +104,7 @@
                 required
                 value = "<?php echo $respuesta[0]['documento'] ?>"
               />
+              <p id="mensaje-documento" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -117,6 +121,7 @@
                 required
                 value = "<?php echo $respuesta[0]['email'] ?>"
               />
+              <p id="mensaje-correo" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -137,6 +142,7 @@
                 <option value="3">Encargado produccion</option>
                 <option value="4">Veterinario</option>
             </select>
+            <p id="mensaje-rol" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -153,6 +159,7 @@
                 required
                 value = "<?php echo $respuesta[0]['telefono'] ?>"
               />
+              <p id="mensaje-telefono" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
@@ -169,6 +176,7 @@
                 required
                 value = "<?php echo $respuesta[0]['direccion'] ?>"
               />
+              <p id="mensaje-direccion" class="text-base text-center font-medium mb-4"></p>
             </div>
             <input type="hidden" name="id_usuario" readonly value = "<?php echo $respuesta[0]['id_usuario'] ?>">
             <div class="w-full flex justify-center">

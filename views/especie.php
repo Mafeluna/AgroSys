@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-especies.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -136,7 +137,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Registrar Especie</h2>
-            <form action="../controllers/especie/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/especie/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-species">
               <div class="mb-5">
                 <label
                   for="nombre"
@@ -149,8 +150,8 @@
                   name="nombre"
                   id="nombre"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-nombre" class="text-base text-center font-medium mb-4"></p>
               </div>
               <!-- <p class="mb-3 block text-base font-medium text-[#07074D]">Foto:</p>
               <div class="image-container flex justify-center items-center rounded-md border border-slate-300 w-full focus:outline-none focus:border-blue-400">
