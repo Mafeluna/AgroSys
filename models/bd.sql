@@ -8,7 +8,7 @@ CREATE TABLE Usuario(
     documento BIGINT UNSIGNED UNIQUE NOT NULL,
     email VARCHAR(255) NOT NULL,
     clave VARCHAR(255) NOT NULL,
-    rol ENUM('Administrador','Encargado Animales','Encargado de Producción','Veterinario') NOT NULL,
+    rol ENUM('Administrador','Administrador Operario','Encargado Animales','Encargado de Producción','Veterinario') NOT NULL,
     telefono INT UNSIGNED NOT NULL,
 	direccion VARCHAR(255) NOT NULL,
     fecha_registro DATE DEFAULT CURRENT_TIMESTAMP,
@@ -17,6 +17,10 @@ CREATE TABLE Usuario(
 
 INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
 VALUES ('Maria Fernanda', 'Luna', 1031651096, 'smfernandaluna@gmail.com', 'MAFE123', 1, 3052955391, 'cll 146 #138a-04');
+INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
+VALUES ('Juan Ricardo', 'Lopez', 123456789, 'jrlopez@gmail.com', 'clave123', 2, 3054564391, 'cll 155 #171a-04');
+INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
+VALUES ('Luisa', 'Rodriguez', 987456123, 'lrodriguez@gmail.com', 'clave123', 2, 3087548965, 'Tv 96 #17a-04');
 #usuarios ficticios
 INSERT INTO Usuario (nombre, apellido, documento, email, clave, rol, telefono, direccion)
 VALUES 
@@ -36,7 +40,7 @@ VALUES
 ('Sebastián', 'Castro', 1123456789, 'sebastian.castro@example.com', 'clave123', 'Encargado Animales', 3192345678, 'Transversal 10 #78-90'),
 ('Daniela', 'Ruiz', 1134567890, 'daniela.ruiz@example.com', 'clave123', 'Encargado de Producción', 3203456789, 'Cra 14 #44-55'),
 ('Felipe', 'Moreno', 1145678901, 'felipe.moreno@example.com', 'clave123', 'Veterinario', 3214567890, 'Calle 66 #20-33'),
-('Isabella', 'Ortiz', 1156789012, 'isabella.ortiz@example.com', 'clave123', 'Administrador', 3225678901, 'Carrera 25 #10-22'),
+('Isabella', 'Ortiz', 1156789012, 'isabella.ortiz@example.com', 'clave123', 2 , 3225678901, 'Carrera 25 #10-22'),
 ('Tomás', 'Vargas', 1167890123, 'tomas.vargas@example.com', 'clave123', 'Encargado Animales', 3236789012, 'Av. Central #77-80'),
 ('Natalia', 'Silva', 1178901234, 'natalia.silva@example.com', 'clave123', 'Encargado de Producción', 3247890123, 'Calle 88 #13-14'),
 ('Diego', 'Reyes', 1189012345, 'diego.reyes@example.com', 'clave123', 'Veterinario', 3258901234, 'Cra 11 #19-22'),
@@ -58,7 +62,7 @@ CREATE PROCEDURE RegistrarUsuario(
     IN p_documento BIGINT UNSIGNED,
     IN p_email VARCHAR(255),
     IN p_clave VARCHAR(255),
-    IN p_rol ENUM('Administrador','Encargado Animales','Encargado de Producción','Veterinario'),
+    IN p_rol ENUM('Administrador','Administrador Operario','Encargado Animales','Encargado de Producción','Veterinario'),
     IN p_telefono INT UNSIGNED,
     IN p_direccion VARCHAR(255)
 )
@@ -81,7 +85,7 @@ CREATE PROCEDURE ModificarUsuario(
     IN p_apellido VARCHAR(100),
     IN p_documento BIGINT UNSIGNED,
     IN p_email VARCHAR(255),
-    IN p_rol ENUM('Administrador','Encargado Animales','Encargado de Producción','Veterinario'),
+    IN p_rol ENUM('Administrador','Administrador Operario','Encargado Animales','Encargado de Producción','Veterinario'),
     IN p_telefono INT UNSIGNED,
     IN p_direccion VARCHAR(255)
 )

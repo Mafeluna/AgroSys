@@ -19,6 +19,7 @@
   <body class="w-full h-screen flex items-center justify-center">
     <?php
     include "../../models/m_usuario.php";
+    var_dump($_POST);
     $instancia = new usuario();
     $respuesta = $instancia->registrar($_POST); 
     if($respuesta == 1){

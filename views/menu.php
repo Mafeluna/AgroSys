@@ -72,9 +72,9 @@
                 >
               </a>
             </li>
-            <?php if($_SESSION['rol']=="Administrador"  ||  $_SESSION['rol']=="Encargado Animales") {?>
             <li>
               <a
+              <?php if($_SESSION['rol']=="Administrador"  ||  $_SESSION['rol']=="Encargado Animales" || $_SESSION['rol']=="Administrador Operario") {?>
                 href="alimentos.php?section=alimentos"
                 class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-white hover:text-lime-600 border-l-4 border-green-500 hover:border-green-500 pr-6<?php if(isset($_GET['section']) && $_GET['section']== "alimentos") echo " text-lime-600 bg-white" ?>"
               >
@@ -87,7 +87,7 @@
               </a>
             </li>
             <?php } ?>
-            <?php if($_SESSION['rol']=="Administrador"  ||  $_SESSION['rol']=="Encargado Animales"){ ?>
+            <?php if($_SESSION['rol']=="Administrador"  ||  $_SESSION['rol']=="Encargado Animales" || $_SESSION['rol']=="Administrador Operario"){ ?>
             <li>
               <a
                 href="alimentacion.php?section=alimentacion"
@@ -102,7 +102,7 @@
               </a>
             </li>
             <?php } ?>
-            <?php if($_SESSION['rol']=="Administrador" || $_SESSION['rol']=="Encargado de Producción"){ ?>
+            <?php if($_SESSION['rol']=="Administrador" || $_SESSION['rol']=="Encargado de Producción" || $_SESSION['rol']=="Administrador Operario"){ ?>
             <li>
               <a
                 href="produccion.php?section=produccion"
@@ -117,7 +117,7 @@
               </a>
             </li>
             <?php } ?>
-            <?php if($_SESSION['rol']== "Administrador"){ ?>
+            <?php if($_SESSION['rol']== "Administrador" || $_SESSION['rol']=="Administrador Operario"){ ?>
             <li>
               <a
                 href="finanzas.php?section=finanzas"
@@ -132,7 +132,7 @@
               </a>
             </li>
             <?php } ?>
-            <?php if($_SESSION['rol']=="Administrador" || $_SESSION['rol']=="Veterinario"){ ?>
+            <?php if($_SESSION['rol']=="Administrador" || $_SESSION['rol']=="Veterinario" || $_SESSION['rol']=="Administrador Operario"){ ?>
             <li>
               <a
                 href="historialmedico.php?section=historial_medico"

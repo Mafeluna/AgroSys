@@ -316,9 +316,10 @@
               >
                 <option value="" selected>-</option>
                 <option value="1">Administrador</option>
-                <option value="2">Encargado Animales</option>
-                <option value="3">Encargado produccion</option>
-                <option value="4">Veterinario</option>
+                <option value="2">Administrador Operario</option>
+                <option value="3">Encargado Animales</option>
+                <option value="4">Encargado produccion</option>
+                <option value="5">Veterinario</option>
             </select>
             <p id="mensaje-rol" class="text-base text-center font-medium mb-4"></p>
             </div>
