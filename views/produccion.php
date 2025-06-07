@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-produccion.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -178,10 +179,10 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerProduccion">
             <h2 class="text-3xl font-semibold">Registrar Produccion</h2>
-            <form action="../controllers/produccion/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/produccion/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-production">
               <div class="mb-5">
                 <label
-                  for="tipo_produccion"
+                  for="tipoProduccion"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Tipo de produccion:
@@ -189,10 +190,10 @@
                 <input
                   type="text"
                   name="tipo_produccion"
-                  id="tipo_produccion"
+                  id="tipoProduccion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-tipoProduccion" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
@@ -207,26 +208,26 @@
                   name="cantidad"
                   id="cantidad"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
               <label
-                for="tipo_medida"
+                for="tipoMedida"
                 class="mb-3 block text-base font-medium text-[#07074D]"
               >
                 Tipo de medida:
               </label>
               <select
                 name="tipo_medida"
-                id="tipo_medida"
+                id="tipoMedida"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                required
               >
                 <option value="" selected>-</option>
                 <option value="1">Kilogramos</option>
                 <option value="2">Litros</option>
             </select>
+            <p id="mensaje-tipoMedida" class="text-base text-center font-medium mb-4"></p>
             </div>
               <div class="mb-5">
                 <label
@@ -239,7 +240,6 @@
                   name="especie"
                   id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value="">-</option>
                 <?php 
@@ -252,6 +252,7 @@
                   }
                 ?>
               </select>
+              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="w-full flex justify-center mt-5">

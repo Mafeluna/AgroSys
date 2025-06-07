@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-mod-produccion.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -58,7 +59,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Modificar Produccion</h2>
-            <form action="../controllers/produccion/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/produccion/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-mod-production">
               <div class="mb-5">
                 <label
                   for="tipo_produccion"
@@ -71,9 +72,9 @@
                   name="tipo_produccion"
                   id="tipo_produccion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value="<?php echo $respuesta[0]['tipo_produccion']  ; ?>"
                 />
+                <p id="mensaje-tipoProduccion" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
                 <label
@@ -87,9 +88,9 @@
                   name="cantidad"
                   id="cantidad"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value="<?php echo $respuesta[0]['cantidad'] ?>"
                 />
+                <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
                 <label
@@ -102,7 +103,6 @@
                   name="especie"
                   id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value="<?php echo $respuesta[0]['id_especie'] ?>" selected><?php echo $respuesta[0]['nombre'] ?></option>
                 <?php 
@@ -115,6 +115,7 @@
                   }
                 ?>
               </select>
+              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
               </div>
               <input type="hidden" name="id_produccion" value="<?php echo $respuesta[0]['id_produccion'] ?>">
               <div class="w-full flex justify-center mt-5">

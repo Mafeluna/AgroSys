@@ -226,7 +226,7 @@
                 >
                 <option value="">-</option>
               </select>
-              <p id="mensaje-alimento" class="text-base text-center font-medium mb-4">ss</p>
+              <p id="mensaje-alimento" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
