@@ -62,7 +62,7 @@
             <form action="../controllers/produccion/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-mod-production">
               <div class="mb-5">
                 <label
-                  for="tipo_produccion"
+                  for="tipoProduccion"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Tipo de Producción:
@@ -70,7 +70,7 @@
                 <input
                   type="text"
                   name="tipo_produccion"
-                  id="tipo_produccion"
+                  id="tipoProduccion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                   value="<?php echo $respuesta[0]['tipo_produccion']  ; ?>"
                 />

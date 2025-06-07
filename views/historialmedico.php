@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-historial.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -176,8 +177,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerHistorial">
             <h2 class="text-3xl font-semibold">Registrar Historial</h2>
-            <form action="../controllers/historial/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data">
-             
+            <form action="../controllers/historial/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-history">
             <div class="mb-5">
                 <label
                   for="animal"
@@ -189,7 +189,6 @@
                   name="animal"
                   id="animal"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value="">-</option>
                 <?php
@@ -200,6 +199,7 @@
                   }
                 ?>
               </select>
+              <p id="mensaje-animal" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
@@ -214,8 +214,8 @@
                   name="descripcion"
                   id="descripcion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-descripcion" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
@@ -230,8 +230,8 @@
                   name="tratamiento"
                   id="tratamiento"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 />
+                <p id="mensaje-tratamiento" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="w-full flex justify-center mt-5">

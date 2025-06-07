@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-mod-historial.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -57,7 +58,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Modificar Historial</h2>
-            <form action="../controllers/historial/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/historial/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-mod-history">
             <div class="mb-5 hidden">
                 <label
                   for="id_historial"
@@ -76,7 +77,7 @@
               </div>
               <div class="mb-5">
                 <label
-                  for="Descripcion"
+                  for="descripcion"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Descripcion:
@@ -84,15 +85,15 @@
                 <input
                   type="text"
                   name="Descripcion"
-                  id="Descripcion"
+                  id="descripcion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value = "<?php echo $respuesta[0]['descripcion'] ?>"
                 />
+                <p id="mensaje-descripcion" class="text-base text-center font-medium mb-4"></p>
               </div>
               <div class="mb-5">
                 <label
-                  for="Tratamiento"
+                  for="tratamiento"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
                   Tratamiento:
@@ -100,11 +101,11 @@
                 <input
                   type="text"
                   name="Tratamiento"
-                  id="Tratamiento"
+                  id="tratamiento"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value = "<?php echo $respuesta[0]['tratamiento'] ?>"
                 />
+                <p id="mensaje-tratamiento" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <input type="hidden" name="id_animal" value="<?php ?>">

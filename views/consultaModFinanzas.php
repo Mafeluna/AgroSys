@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="styles.css">
     <script src="./mostrarSeccion.js" defer></script>
     <script src="ojo.js"></script>
+    <script src="js/validar-finanzas.js" defer></script>
   </head>
   <body>
     <!-- Header -->
@@ -58,7 +59,7 @@
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
             <h2 class="text-3xl font-semibold">Modificar Finanzas</h2>
-            <form action="../controllers/finanza/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data">
+            <form action="../controllers/finanza/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data"id="form-finance">
             <div class="mb-5 hidden">
                 <label
                   for="id_transaccion"
@@ -87,12 +88,12 @@
                   name="tipo"
                   id="tipo"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                 >
                 <option value = "<?php echo $respuesta[0]['tipo'] ?>"><?php echo $respuesta[0]['tipo'] ?></option>
                 <option value="1">Ingreso</option>
                 <option value="2">Egreso</option>
               </select>
+              <p id="mensaje-tipo" class="text-base text-center font-medium mb-4"></p>
               </div>
 
             <div class="mb-5">
@@ -107,9 +108,9 @@
                   name="monto"
                   id="monto"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value = "<?php echo $respuesta[0]['monto'] ?>"
                 />
+                <p id="mensaje-monto" class="text-base text-center font-medium mb-4"></p>
               </div>
 
               <div class="mb-5">
@@ -124,9 +125,9 @@
                   name="descripcion"
                   id="descripcion"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  required
                   value = "<?php echo $respuesta[0]['descripcion'] ?>"
                 />
+                <p id="mensaje-descripcion" class="text-base text-center font-medium mb-4"></p>
               </div>
               <button
               class="hover:shadow-form rounded-md bg-lime-500 py-3 px-8 text-base font-semibold text-white outline-none"
