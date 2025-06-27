@@ -161,21 +161,6 @@
             <form action="../controllers/animal/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-animals">
               <div class="mb-5">
                 <label
-                  for="codigo"
-                  class="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  CODIGO:
-                </label>
-                <input
-                  type="number"
-                  name="nombre"
-                  id="codigo"
-                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                />
-                <p id="mensaje-codigo" class="text-base text-center font-medium mb-4"></p>
-              </div>
-              <div class="mb-5">
-                <label
                   for="especie"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >

@@ -6,8 +6,8 @@
     private $peso;
     private $registrado_por;
     //
-    public function registrar($datos,$user){
-      $this->nombre = $datos['nombre'];
+    public function registrar($datos,$codigo,$user){
+      $this->nombre = $codigo;
       $this->especie = $datos['especie'];
       $this->peso = $datos['peso'];
       $this->registrado_por = $user;
@@ -83,6 +83,20 @@
         $eliminar->execute();
   
         return 1;
+      }
+
+      public function contarPorEspecie($especie){
+
+        include "conexion.php";
+        $consulta = $conexion->prepare("CALL ContarPorEspecie(?);");
+        $consulta->bindParam(1,$especie);
+        $consulta->execute();
+
+        $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($datos);
+        
+        $cantidad = $datos[0]['cantidad_animales'];
+        return $cantidad;
       }
     }
   

@@ -25,8 +25,8 @@
       return $tabla;
     }
 
-    public function consultaEspecifica($dato){
-      $this->id_especie = $dato['id_especie'];
+    public function consultaEspecifica($id){
+      $this->id_especie = $id;
 
       include "conexion.php";
       $consulta = $conexion->prepare("CALL ConsultaEspecificaEspecie(?)");
