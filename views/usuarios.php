@@ -47,7 +47,7 @@
       <!-- section -->
       <section class="w-full overflow-y-auto" style="height: 90vh">
         <header class="flex p-5 gap-5">
-          <div class="w-1/3 flex justify-between">
+          <div class="w-1/2 flex justify-between">
           <button
             id="btn-user"
             class="bg-green-500 duration-150 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
@@ -77,8 +77,15 @@
           >
             Generar Excel
           </button>
+          <button
+            id="btn-user"
+            class="bg-green-500 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+            onclick=""
+          >
+            Importar Datos
+          </button>
           </div>
-          <div class="w-2/3">
+          <div class="w-1/2 ">
           <form action="" class="flex gap-10" method="post">
             <input
               name = "documento"
