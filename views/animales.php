@@ -82,14 +82,30 @@
           <!-- consulta -->
           <section class="w-full <?php if ($especie['id_especie'] == 1){?>activesection<?php } ?> seccion justify-center gap-10 items-center flex-wrap flex-col" id="consulta<?php echo $especie['nombre'] ?>">
             <h1 class="uppercase text-3xl text-center"><?php echo $especie['nombre'] ?>s</h1>
-          <form action="../controllers/animal/generar_pdf_animales.php" method="GET">
-            <input type="hidden" name="especie" value="<?php echo $especie['nombre'] ?>">
-            <button class="bg-red-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold" type="submit">Generar PDF <?php echo $especie['nombre']."s" ?></button>
-          </form>
+            <form action="" class="flex gap-10 w-1/3" method="post">
+              <input
+                name = "codigo"
+                type="text"
+                placeholder="Buscar por codigo..."
+                class="w-3/4 pl-10 pr-4 py-2 rounded-2xl shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+              <button class="bg-blue-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x">
+              <ion-icon name="search-outline"></ion-icon>
+              </button>
+            </form>
+            <form action="../controllers/animal/generar_pdf_animales.php" method="GET">
+              <input type="hidden" name="especie" value="<?php echo $especie['nombre'] ?>">
+              <button class="bg-red-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold" type="submit">Generar PDF <?php echo $especie['nombre']."s" ?></button>
+            </form>
             <div class="flex justify-center gap-10 items-center flex-wrap">
             <?php
               $instancia = new animal();
-              $respuesta = $instancia->consultaPorEspecie($especie['nombre']);
+              if(isset($_POST["codigo"])){
+                $respuesta = $instancia->consultaPorEspecieEspecifica($especie['nombre'],$_POST["codigo"]);
+              }
+              else{
+                $respuesta = $instancia->consultaPorEspecie($especie['nombre']);
+              }
               foreach($respuesta as $valor){
               //$imagenA = base64_encode($valor['foto']);
             ?>

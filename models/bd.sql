@@ -40,7 +40,7 @@ VALUES
 ('Sebastián', 'Castro', 1123456789, 'sebastian.castro@example.com', 'clave123', 'Encargado Animales', 3192345678, 'Transversal 10 #78-90'),
 ('Daniela', 'Ruiz', 1134567890, 'daniela.ruiz@example.com', 'clave123', 'Encargado de Producción', 3203456789, 'Cra 14 #44-55'),
 ('Felipe', 'Moreno', 1145678901, 'felipe.moreno@example.com', 'clave123', 'Veterinario', 3214567890, 'Calle 66 #20-33'),
-('Isabella', 'Ortiz', 1156789012, 'isabella.ortiz@example.com', 'clave123', 2 , 3225678901, 'Carrera 25 #10-22'),
+('Isabella', 'Ortiz', 1156789012, 'isabella.ortiz@example.com', 'clave123', 'Administrador', 3225678901, 'Carrera 25 #10-22'),
 ('Tomás', 'Vargas', 1167890123, 'tomas.vargas@example.com', 'clave123', 'Encargado Animales', 3236789012, 'Av. Central #77-80'),
 ('Natalia', 'Silva', 1178901234, 'natalia.silva@example.com', 'clave123', 'Encargado de Producción', 3247890123, 'Calle 88 #13-14'),
 ('Diego', 'Reyes', 1189012345, 'diego.reyes@example.com', 'clave123', 'Veterinario', 3258901234, 'Cra 11 #19-22'),
@@ -161,6 +161,8 @@ CREATE TABLE Animal(
     estado ENUM ('Activo','Inactivo') DEFAULT 'Activo'
 );
 
+
+
 #procedimientos almacenados Animal
 DELIMITER //
 CREATE PROCEDURE RegistrarAnimal(
@@ -179,6 +181,15 @@ BEGIN
 END //
 DELIMITER ;
 
+CREATE PROCEDURE ContarPorEspecie(
+	IN p_especie TINYINT UNSIGNED
+)
+	SELECT COUNT(*) AS cantidad_animales
+	FROM Animal 
+	JOIN Especie  ON Animal.especie = Especie.id_especie
+	WHERE Especie.id_especie = p_especie;
+    
+call contarPorespecie(2);
 DELIMITER //
 CREATE PROCEDURE RegistrarAnimalConFecha(
     IN p_nombre VARCHAR(100),
@@ -196,78 +207,78 @@ BEGIN
     WHERE id_especie = p_especie;
 END //
 DELIMITER ;
-CALL RegistrarAnimalConFecha('001', 1, 3.50, '2025-01-05', 1);
-CALL RegistrarAnimalConFecha('002', 1, 3.55, '2025-01-12', 1);
-CALL RegistrarAnimalConFecha('003', 2, 2.10, '2025-01-15', 2);
-CALL RegistrarAnimalConFecha('004', 3, 4.80, '2025-01-20', 3);
-CALL RegistrarAnimalConFecha('005', 4, 5.60, '2025-01-25', 2);
-CALL RegistrarAnimalConFecha('006', 1, 3.60, '2025-02-03', 1);
-CALL RegistrarAnimalConFecha('007', 2, 2.15, '2025-02-08', 2);
-CALL RegistrarAnimalConFecha('008', 2, 2.20, '2025-02-12', 2);
-CALL RegistrarAnimalConFecha('009', 3, 4.85, '2025-02-16', 3);
-CALL RegistrarAnimalConFecha('010', 4, 5.65, '2025-02-20', 1);
-CALL RegistrarAnimalConFecha('011', 4, 5.70, '2025-02-25', 1);
-CALL RegistrarAnimalConFecha('012', 1, 3.65, '2025-03-01', 1);
-CALL RegistrarAnimalConFecha('013', 1, 3.70, '2025-03-05', 1);
-CALL RegistrarAnimalConFecha('014', 1, 3.75, '2025-03-10', 1);
-CALL RegistrarAnimalConFecha('015', 2, 2.25, '2025-03-12', 2);
-CALL RegistrarAnimalConFecha('016', 3, 4.90, '2025-03-18', 3);
-CALL RegistrarAnimalConFecha('017', 4, 5.80, '2025-03-22', 2);
-CALL RegistrarAnimalConFecha('018', 3, 4.95, '2025-03-28', 3);
-CALL RegistrarAnimalConFecha('019', 1, 3.80, '2025-04-04', 1);
-CALL RegistrarAnimalConFecha('020', 2, 2.30, '2025-04-08', 2);
-CALL RegistrarAnimalConFecha('021', 3, 5.00, '2025-04-12', 3);
-CALL RegistrarAnimalConFecha('022', 4, 5.85, '2025-04-16', 1);
-CALL RegistrarAnimalConFecha('023', 2, 2.35, '2025-04-20', 2);
-CALL RegistrarAnimalConFecha('024', 1, 3.85, '2025-05-03', 1);
-CALL RegistrarAnimalConFecha('025', 1, 3.90, '2025-05-07', 1);
-CALL RegistrarAnimalConFecha('026', 1, 3.95, '2025-05-10', 1);
-CALL RegistrarAnimalConFecha('027', 2, 2.40, '2025-05-14', 2);
-CALL RegistrarAnimalConFecha('028', 3, 5.05, '2025-05-18', 3);
-CALL RegistrarAnimalConFecha('029', 4, 5.90, '2025-05-22', 1);
-CALL RegistrarAnimalConFecha('030', 4, 5.95, '2025-05-26', 1);
-CALL RegistrarAnimalConFecha('031', 1, 4.00, '2025-06-02', 1);
-CALL RegistrarAnimalConFecha('032', 2, 2.45, '2025-06-06', 2);
-CALL RegistrarAnimalConFecha('033', 2, 2.50, '2025-06-10', 2);
-CALL RegistrarAnimalConFecha('034', 3, 5.10, '2025-06-14', 3);
-CALL RegistrarAnimalConFecha('035', 4, 6.00, '2025-06-18', 1);
-CALL RegistrarAnimalConFecha('036', 4, 6.05, '2025-06-22', 1);
-CALL RegistrarAnimalConFecha('037', 1, 4.10, '2025-07-03', 1);
-CALL RegistrarAnimalConFecha('038', 1, 4.15, '2025-07-07', 1);
-CALL RegistrarAnimalConFecha('039', 2, 2.55, '2025-07-11', 2);
-CALL RegistrarAnimalConFecha('040', 2, 2.60, '2025-07-15', 2);
-CALL RegistrarAnimalConFecha('041', 3, 5.15, '2025-07-19', 3);
-CALL RegistrarAnimalConFecha('042', 4, 6.10, '2025-07-23', 1);
-CALL RegistrarAnimalConFecha('043', 1, 4.20, '2025-08-05', 1);
-CALL RegistrarAnimalConFecha('044', 2, 2.65, '2025-08-09', 2);
-CALL RegistrarAnimalConFecha('045', 3, 5.20, '2025-08-13', 3);
-CALL RegistrarAnimalConFecha('046', 4, 6.15, '2025-08-17', 1);
-CALL RegistrarAnimalConFecha('047', 4, 6.20, '2025-08-21', 1);
-CALL RegistrarAnimalConFecha('048', 1, 4.25, '2025-09-02', 1);
-CALL RegistrarAnimalConFecha('049', 1, 4.30, '2025-09-06', 1);
-CALL RegistrarAnimalConFecha('050', 2, 2.70, '2025-09-10', 2);
-CALL RegistrarAnimalConFecha('051', 2, 2.75, '2025-09-14', 2);
-CALL RegistrarAnimalConFecha('052', 3, 5.25, '2025-09-18', 3);
-CALL RegistrarAnimalConFecha('053', 3, 5.30, '2025-09-22', 3);
-CALL RegistrarAnimalConFecha('054', 4, 6.25, '2025-09-26', 1);
-CALL RegistrarAnimalConFecha('055', 1, 4.35, '2025-10-03', 1);
-CALL RegistrarAnimalConFecha('056', 2, 2.80, '2025-10-07', 2);
-CALL RegistrarAnimalConFecha('057', 3, 5.35, '2025-10-11', 3);
-CALL RegistrarAnimalConFecha('058', 4, 6.30, '2025-10-15', 1);
-CALL RegistrarAnimalConFecha('059', 3, 5.40, '2025-10-19', 3);
-CALL RegistrarAnimalConFecha('060', 1, 4.40, '2025-11-03', 1);
-CALL RegistrarAnimalConFecha('061', 1, 4.45, '2025-11-07', 1);
-CALL RegistrarAnimalConFecha('062', 2, 2.85, '2025-11-11', 2);
-CALL RegistrarAnimalConFecha('063', 2, 2.90, '2025-11-15', 2);
-CALL RegistrarAnimalConFecha('064', 3, 5.45, '2025-11-19', 3);
-CALL RegistrarAnimalConFecha('065', 4, 6.35, '2025-11-23', 1);
-CALL RegistrarAnimalConFecha('066', 1, 4.50, '2025-12-02', 1);
-CALL RegistrarAnimalConFecha('067', 1, 4.55, '2025-12-06', 1);
-CALL RegistrarAnimalConFecha('068', 1, 4.60, '2025-12-10', 1);
-CALL RegistrarAnimalConFecha('069', 2, 2.95, '2025-12-14', 2);
-CALL RegistrarAnimalConFecha('070', 3, 5.50, '2025-12-18', 3);
-CALL RegistrarAnimalConFecha('071', 4, 6.40, '2025-12-22', 1);
-CALL RegistrarAnimalConFecha('072', 4, 6.45, '2025-12-26', 1);
+CALL RegistrarAnimalConFecha('VA-0001', 1, 3.50, '2025-01-05', 1);
+CALL RegistrarAnimalConFecha('VA-0002', 1, 3.55, '2025-01-12', 1);
+CALL RegistrarAnimalConFecha('CA-0001', 2, 2.10, '2025-01-15', 2);
+CALL RegistrarAnimalConFecha('GA-0001', 3, 4.80, '2025-01-20', 3);
+CALL RegistrarAnimalConFecha('CE-0001', 4, 5.60, '2025-01-25', 2);
+CALL RegistrarAnimalConFecha('VA-0003', 1, 3.60, '2025-02-03', 1);
+CALL RegistrarAnimalConFecha('CA-0002', 2, 2.15, '2025-02-08', 2);
+CALL RegistrarAnimalConFecha('CA-0003', 2, 2.20, '2025-02-12', 2);
+CALL RegistrarAnimalConFecha('GA-0002', 3, 4.85, '2025-02-16', 3);
+CALL RegistrarAnimalConFecha('CE-0002', 4, 5.65, '2025-02-20', 1);
+CALL RegistrarAnimalConFecha('CE-0003', 4, 5.70, '2025-02-25', 1);
+CALL RegistrarAnimalConFecha('VA-0004', 1, 3.65, '2025-03-01', 1);
+CALL RegistrarAnimalConFecha('VA-0005', 1, 3.70, '2025-03-05', 1);
+CALL RegistrarAnimalConFecha('VA-0006', 1, 3.75, '2025-03-10', 1);
+CALL RegistrarAnimalConFecha('CA-0004', 2, 2.25, '2025-03-12', 2);
+CALL RegistrarAnimalConFecha('GA-0003', 3, 4.90, '2025-03-18', 3);
+CALL RegistrarAnimalConFecha('CE-0004', 4, 5.80, '2025-03-22', 2);
+CALL RegistrarAnimalConFecha('GA-0004', 3, 4.95, '2025-03-28', 3);
+CALL RegistrarAnimalConFecha('VA-0007', 1, 3.80, '2025-04-04', 1);
+CALL RegistrarAnimalConFecha('CA-0005', 2, 2.30, '2025-04-08', 2);
+CALL RegistrarAnimalConFecha('GA-0005', 3, 5.00, '2025-04-12', 3);
+CALL RegistrarAnimalConFecha('CE-0005', 4, 5.85, '2025-04-16', 1);
+CALL RegistrarAnimalConFecha('CA-0006', 2, 2.35, '2025-04-20', 2);
+CALL RegistrarAnimalConFecha('VA-0008', 1, 3.85, '2025-05-03', 1);
+CALL RegistrarAnimalConFecha('VA-0009', 1, 3.90, '2025-05-07', 1);
+CALL RegistrarAnimalConFecha('VA-0010', 1, 3.95, '2025-05-10', 1);
+CALL RegistrarAnimalConFecha('CA-0007', 2, 2.40, '2025-05-14', 2);
+CALL RegistrarAnimalConFecha('GA-0006', 3, 5.05, '2025-05-18', 3);
+CALL RegistrarAnimalConFecha('CE-0006', 4, 5.90, '2025-05-22', 1);
+CALL RegistrarAnimalConFecha('CE-0007', 4, 5.95, '2025-05-26', 1);
+CALL RegistrarAnimalConFecha('VA-0011', 1, 4.00, '2025-06-02', 1);
+CALL RegistrarAnimalConFecha('CA-0008', 2, 2.45, '2025-06-06', 2);
+CALL RegistrarAnimalConFecha('CA-0009', 2, 2.50, '2025-06-10', 2);
+CALL RegistrarAnimalConFecha('GA-0007', 3, 5.10, '2025-06-14', 3);
+CALL RegistrarAnimalConFecha('CE-0008', 4, 6.00, '2025-06-18', 1);
+CALL RegistrarAnimalConFecha('CE-0009', 4, 6.05, '2025-06-22', 1);
+CALL RegistrarAnimalConFecha('VA-0012', 1, 4.10, '2025-07-03', 1);
+CALL RegistrarAnimalConFecha('VA-0013', 1, 4.15, '2025-07-07', 1);
+CALL RegistrarAnimalConFecha('CA-0010', 2, 2.55, '2025-07-11', 2);
+CALL RegistrarAnimalConFecha('CA-0011', 2, 2.60, '2025-07-15', 2);
+CALL RegistrarAnimalConFecha('GA-0008', 3, 5.15, '2025-07-19', 3);
+CALL RegistrarAnimalConFecha('CE-0010', 4, 6.10, '2025-07-23', 1);
+CALL RegistrarAnimalConFecha('VA-0014', 1, 4.20, '2025-08-05', 1);
+CALL RegistrarAnimalConFecha('CA-0012', 2, 2.65, '2025-08-09', 2);
+CALL RegistrarAnimalConFecha('GA-0009', 3, 5.20, '2025-08-13', 3);
+CALL RegistrarAnimalConFecha('CE-0011', 4, 6.15, '2025-08-17', 1);
+CALL RegistrarAnimalConFecha('CE-0012', 4, 6.20, '2025-08-21', 1);
+CALL RegistrarAnimalConFecha('VA-0015', 1, 4.25, '2025-09-02', 1);
+CALL RegistrarAnimalConFecha('VA-0016', 1, 4.30, '2025-09-06', 1);
+CALL RegistrarAnimalConFecha('CA-0013', 2, 2.70, '2025-09-10', 2);
+CALL RegistrarAnimalConFecha('CA-0014', 2, 2.75, '2025-09-14', 2);
+CALL RegistrarAnimalConFecha('GA-0010', 3, 5.25, '2025-09-18', 3);
+CALL RegistrarAnimalConFecha('GA-0011', 3, 5.30, '2025-09-22', 3);
+CALL RegistrarAnimalConFecha('CE-0013', 4, 6.25, '2025-09-26', 1);
+CALL RegistrarAnimalConFecha('VA-0017', 1, 4.35, '2025-10-03', 1);
+CALL RegistrarAnimalConFecha('CA-0015', 2, 2.80, '2025-10-07', 2);
+CALL RegistrarAnimalConFecha('GA-0012', 3, 5.35, '2025-10-11', 3);
+CALL RegistrarAnimalConFecha('CE-0014', 4, 6.30, '2025-10-15', 1);
+CALL RegistrarAnimalConFecha('GA-0013', 3, 5.40, '2025-10-19', 3);
+CALL RegistrarAnimalConFecha('VA-0018', 1, 4.40, '2025-11-03', 1);
+CALL RegistrarAnimalConFecha('VA-0019', 1, 4.45, '2025-11-07', 1);
+CALL RegistrarAnimalConFecha('CA-0016', 2, 2.85, '2025-11-11', 2);
+CALL RegistrarAnimalConFecha('CA-0017', 2, 2.90, '2025-11-15', 2);
+CALL RegistrarAnimalConFecha('GA-0014', 3, 5.45, '2025-11-19', 3);
+CALL RegistrarAnimalConFecha('CE-0015', 4, 6.35, '2025-11-23', 1);
+CALL RegistrarAnimalConFecha('VA-0020', 1, 4.50, '2025-12-02', 1);
+CALL RegistrarAnimalConFecha('VA-0021', 1, 4.55, '2025-12-06', 1);
+CALL RegistrarAnimalConFecha('VA-0022', 1, 4.60, '2025-12-10', 1);
+CALL RegistrarAnimalConFecha('CA-0018', 2, 2.95, '2025-12-14', 2);
+CALL RegistrarAnimalConFecha('GA-0015', 3, 5.50, '2025-12-18', 3);
+CALL RegistrarAnimalConFecha('CE-0016', 4, 6.40, '2025-12-22', 1);
+CALL RegistrarAnimalConFecha('CE-0017', 4, 6.45, '2025-12-26', 1);
 
     
 CREATE PROCEDURE ConsultaGeneralAnimal()
@@ -281,7 +292,15 @@ CREATE PROCEDURE ConsultaPorEspecie(
 	SELECT Animal.id_animal,Animal.nombre,Especie.id_especie as "id_especie",Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
     FROM Usuario 
     INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND Especie.nombre = p_especie;
-    
+   
+CREATE PROCEDURE ConsultaPorEspecieEspecifica(
+	IN p_especie VARCHAR(50),
+    IN p_codigo VARCHAR(255)
+)
+    SELECT Animal.id_animal,Animal.nombre,Especie.id_especie as "id_especie",Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
+    FROM Usuario 
+    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario 
+    INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND Especie.nombre = p_especie AND Animal.nombre = p_codigo;
     
 CREATE PROCEDURE ConsultaEspecificaAnimal(
 	IN p_id_animal SMALLINT UNSIGNED
@@ -458,8 +477,18 @@ CREATE PROCEDURE ConsultaGeneralAlimentacion()
 CREATE PROCEDURE ConsultarAlimentacionPorID(
     IN p_id_alimentacion INT UNSIGNED
 )
-    SELECT * FROM Alimentacion
-    WHERE id_alimentacion = p_id_alimentacion;
+    	SELECT 
+        Alimentacion.id_alimentacion,
+        Especie.nombre AS "especie",
+        Alimento.descripcion AS "alimento",
+        Alimentacion.cantidad,
+        Alimento.tipo_medida,
+        Alimentacion.fecha
+    FROM Alimentacion
+    INNER JOIN Alimento ON Alimento.id_alimento = Alimentacion.alimento
+    INNER JOIN Especie ON Especie.id_especie = Alimentacion.especie
+    WHERE Alimentacion.estado = 'Activo'
+    AND id_alimentacion = p_id_alimentacion;
 
 
 CREATE PROCEDURE ActualizarAlimentacion
@@ -564,8 +593,8 @@ CREATE PROCEDURE ConsultaGeneralProduccion()
 
 CREATE PROCEDURE ConsultarProduccionPorID(	
 IN p_id_produccion INT UNSIGNED)
-    SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.fecha,Especie.id_especie,Especie.nombre
-    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado=1 AND Produccion.id_produccion=p_id_produccion;
+    SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.tipo_medida,Produccion.fecha,Especie.nombre 
+    FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado='Activo' AND Produccion.id_produccion=p_id_produccion;
 
 
 CREATE PROCEDURE ActualizarProduccion(
@@ -653,8 +682,12 @@ CREATE PROCEDURE ConsultaGeneralHistorial()
 CREATE PROCEDURE ConsultarhistorialPorID (
      IN p_id_historial INT
 )
-    SELECT * FROM historial_clinico
-    WHERE id_historial = p_id_historial AND estado=1;
+    SELECT historial_clinico.id_historial, historial_clinico.fecha, Animal.nombre as "animal",Especie.nombre as "especie" ,historial_clinico.descripcion,historial_clinico.tratamiento 
+    FROM Especie 
+    INNER JOIN Animal ON Especie.id_especie = Animal.especie 
+    INNER JOIN Historial_clinico ON Historial_clinico.animal=Animal.id_animal 
+    WHERE Historial_clinico.estado=1
+    AND id_historial = p_id_historial;
 
 
 CREATE PROCEDURE Actualizarhistorial(
@@ -725,8 +758,8 @@ CREATE PROCEDURE ConsultaGeneralFinanzas()
 CREATE PROCEDURE ConsultarfinanzasPorID(
 IN p_id_transaccion INT
 )
-   SELECT * FROM Finanzas
-   WHERE id_transaccion = p_id_transaccion AND estado=1;
+   SELECT id_transaccion,tipo,monto,descripcion,fecha,nombre,apellido FROM Usuario INNER JOIN Finanzas ON id_usuario=registrado_por WHERE Finanzas.estado=1
+   AND id_transaccion = p_id_transaccion;
 
 
 CREATE PROCEDURE Actualizarfinanzas

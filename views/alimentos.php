@@ -82,6 +82,19 @@
             Generar Excel
           </button>
           <div class="w-5/6 flex items-center pl-5">
+          <div class="w-2/3">
+          <form action="" class="flex gap-10" method="post">
+            <input
+              name = "id"
+              type="number"
+              placeholder="Buscar por Id..."
+              class="w-3/4 pl-10 pr-4 py-2 rounded-2xl shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            />
+            <button class="bg-blue-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x">
+              <ion-icon name="search-outline"></ion-icon>
+            </button>
+          </form>
+          </div>
         </header>
         <article class="w-full p-5">
           <section class="w-full activesection seccion flex-col justify-center items-center" id="consultaAlimentos">
@@ -136,8 +149,8 @@
             <tbody class="bg-emerald-100">
               <?php 
                 $instancia = new alimento();
-                if(isset($_POST['documento'])){
-                  $respuesta = $instancia->consultaEspecifica($_POST['documento']);
+                if(isset($_POST['id'])){
+                  $respuesta = $instancia->consultaEspecifica($_POST);
                 } else{
                 $respuesta = $instancia->consultaGeneral();}
                 foreach($respuesta as $valor){

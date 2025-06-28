@@ -20,14 +20,13 @@
     <?php
     function formatearNumero($num) {
       return str_pad($num, 4, "0", STR_PAD_LEFT);
-  }
+    }
 
 
     include "../../models/m_animal.php";
     include "../../models/m_especie.php";
     session_start();
     $instancia = new animal();
-    var_dump($_POST);
 
     $especie = new especie();
     $answer = $especie->consultaEspecifica($_POST["especie"]);

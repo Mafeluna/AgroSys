@@ -55,6 +55,20 @@
         $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
         return $tabla;
       }
+
+      public function consultaPorEspecieEspecifica($especie,$codigo){
+        $this->especie = $especie;
+        $this->nombre = $codigo;
+
+        include "conexion.php";
+        $consulta = $conexion->prepare("CALL ConsultaPorEspecieEspecifica(?,?)");
+        $consulta->bindParam(1,$this->especie);
+        $consulta->bindParam(2,$this->nombre);
+        $consulta->execute();
+
+        $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        return $tabla;
+      }
   
       public function modificarDatos($datos){ 
           $this->id_animal = $datos['id_animal'];
