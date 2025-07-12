@@ -127,7 +127,7 @@
                   <ion-icon name="logo-usd"></ion-icon>
                 </span>
                 <span class="ml-2 text-lg tracking-wide truncate"
-                  >Finanzas</span
+                  >Reporte Económico</span
                 >
               </a>
             </li>

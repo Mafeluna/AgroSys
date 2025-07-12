@@ -72,16 +72,12 @@
   
       public function modificarDatos($datos){ 
           $this->id_animal = $datos['id_animal'];
-          $this->nombre = $datos['nombre'];
-          $this->especie = $datos['especie'];
           $this->peso = $datos['peso'];
         
         include "conexion.php";
-        $actualizar = $conexion->prepare("CALL ModificarAnimal(?,?,?,?)");
+        $actualizar = $conexion->prepare("CALL ModificarAnimal(?,?)");
         $actualizar->bindParam(1, $this->id_animal);
-        $actualizar->bindParam(2, $this->nombre);
-        $actualizar->bindParam(3,$this->especie);
-        $actualizar->bindParam(4,$this->peso);
+        $actualizar->bindParam(2,$this->peso);
         $actualizar->execute();
         return 1;
       }
@@ -107,7 +103,6 @@
         $consulta->execute();
 
         $datos = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($datos);
         
         $cantidad = $datos[0]['cantidad_animales'];
         return $cantidad;

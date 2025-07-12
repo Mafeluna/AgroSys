@@ -21,13 +21,14 @@
     include "../../models/m_animal.php";
     $instancia = new animal();
     $respuesta = $instancia->modificarDatos($_POST); 
+    $consulta = $instancia->ConsultaEspecifica($_POST);
     $script = "";
     if($respuesta == 1){
       $script = "
       Swal.fire({
           icon: 'success',
           title: 'Modificacion Exitosa',
-          text: 'Los datos de {$_POST['nombre']} fueron actualizados exitosamente',
+          text: 'Los datos de {$consulta[0]['nombre']} fueron actualizados exitosamente',
           confirmButtonText: 'Aceptar'
       }).then(function() {
           window.location.href = '../../views/animales.php?section=animales';

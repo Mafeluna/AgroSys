@@ -24,9 +24,7 @@
     $id_alimentacion = $_POST['id_alimentacion'];
     $cantidad = $_POST['cantidad'];
 
-    $sql = "UPDATE Alimentacion SET 
-                cantidad = '$cantidad' 
-            WHERE id_alimentacion = '$id_alimentacion'";
+    $sql = "CALL ActualizarAlimentacion('$id_alimentacion', '$cantidad');";
 
     if ($conn->query($sql) === TRUE) {
         $script = "

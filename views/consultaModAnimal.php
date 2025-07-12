@@ -68,47 +68,6 @@
             <form action="../controllers/animal/modificacion.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-mod-animals">
               <div class="mb-5">
                 <label
-                  for="codigo"
-                  class="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  CODIGO:
-                </label>
-                <input
-                  type="text"
-                  name="nombre"
-                  id="codigo"
-                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                  value="<?php echo $respuesta[0]['nombre'] ?>"
-                />
-                <p id="mensaje-codigo" class="text-base text-center font-medium mb-4"></p>
-              </div>
-              <div class="mb-5">
-                <label
-                  for="especie"
-                  class="mb-3 block text-base font-medium text-[#07074D]"
-                >
-                  Especie:
-                </label>
-                <select
-                  name="especie"
-                  id="especie"
-                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-                >
-                  <option value="<?php echo $respuesta[0]['id_especie']?>" selected><?php echo $respuesta[0]['especie'] ?></option>
-                  <?php 
-                    $instancia2 = new especie();
-                    $respuesta2 = $instancia2->consultaGeneral();
-                    foreach($respuesta2 as $especie){
-                  ?>
-                  <option value="<?php echo $especie['id_especie'] ?>"><?php echo $especie['nombre'] ?></option>
-                  <?php
-                    }
-                  ?>
-              </select>
-              <p id="mensaje-especie" class="text-base text-center font-medium mb-4"></p>
-              </div>
-              <div class="mb-5">
-                <label
                   for="peso"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >

@@ -22,6 +22,16 @@
       $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
       return $tabla;
     }
+
+    public function getResumenFinanciero(){
+
+      include "conexion.php";
+      $consulta = $conexion->prepare("CALL ResumenFinanciero()");
+      $consulta->execute();
+
+      $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $tabla;
+    }
   }
 
 ?>

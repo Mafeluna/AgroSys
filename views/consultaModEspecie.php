@@ -59,7 +59,7 @@
         <article class="w-full p-5">
             <?php
               $instancia = new especie();
-              $respuesta = $instancia->consultaEspecifica($_GET);
+              $respuesta = $instancia->consultaEspecifica($_GET["id_especie"]);
             ?>
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">

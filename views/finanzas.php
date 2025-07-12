@@ -5,6 +5,8 @@
   }
 
   include "../models/m_finanzas.php";
+  $instancia = new finanza();
+  $resumenFinanciero = $instancia->getResumenFinanciero();
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +90,61 @@
         </header>
         <article class="w-full p-5">
           <!-- consulta -->
-          <section class="w-full activesection seccion justify-center gap-10 items-center flex-wrap" id="consultaFinanzas">
+          <section class="w-full activesection seccion flex-col justify-center gap-10 items-center flex-wrap" id="consultaFinanzas">
+            <h2
+                class="font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center uppercase"
+              >
+                Resumen Financiero
+            </h2>
+            <div class="flex w-full justify-evenly">
+              <div
+              class="bg-white flex flex-col text-gray-700 shadow-md border border-black rounded-xl w-96"
+              >
+                <div class="p-6">
+                  <h5 class="font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center">
+                    <ion-icon class="text-green-500" name="arrow-up-outline"></ion-icon>
+                  </h5>
+                  <h5
+                    class="mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center"
+                  >
+                    Total Ingresos: $<?php echo number_format($resumenFinanciero[0]["total_ingresos"], 2, ',', '.')?>
+                  </h5>
+                </div>
+              </div>
+              <div
+              class="bg-white flex flex-col text-gray-700 shadow-md rounded-xl border border-black w-96"
+              >
+                <div class="pt-6 pb-6">
+                  <h5 class="font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center">
+                    <ion-icon class="text-red-500" name="arrow-down-outline"></ion-icon>
+                  </h5>
+                  <h5
+                    class="mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center"
+                  >
+                    Total Egresos: $<?php echo number_format($resumenFinanciero[0]["total_egresos"], 2, ',', '.')?>
+                  </h5>
+                </div>
+              </div>
+              <div
+              class="bg-white flex flex-col text-gray-700 shadow-md border border-black rounded-xl w-96"
+              >
+                <div class="p-6">
+                  <h5 class="font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center">
+                    <ion-icon class="text-blue-500" name="bar-chart-outline"></ion-icon>
+                  </h5>
+                  <h5
+                    class="mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center"
+                  >
+                    Balance: $<?php echo number_format($resumenFinanciero[0]["balance"], 2, ',', '.')?>
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <h2
+                class="font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center uppercase"
+              >
+                Transacciones
+            </h2>
             <table
             class="max-w-96 border border-neutral-800 text-center text-sm font-light text-surface bg-red-500"
           >
@@ -144,8 +200,7 @@
               </tr>
             </thead>
             <tbody class="bg-emerald-100">
-              <?php 
-                $instancia = new finanza();
+              <?php
 
                 if(isset($_POST["id"])){
                   $respuesta = $instancia->consultaEspecifica($_POST);

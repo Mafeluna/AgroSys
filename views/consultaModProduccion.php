@@ -54,7 +54,7 @@
         <article class="w-full p-5">
             <?php
               $instancia = new produccion();
-              $respuesta = $instancia->ConsultaEspecifica($_GET);
+              $respuesta = $instancia->consultaEspecifica($_GET);
             ?>
           <!-- registro -->
           <section class="w-full h-full justify-center items-center flex flex-col" id="registerAnimal">
@@ -97,7 +97,7 @@
                   for="especie"
                   class="mb-3 block text-base font-medium text-[#07074D]"
                 >
-                  Especie:
+                  Especie:  
                 </label>
                 <select
                   name="especie"
