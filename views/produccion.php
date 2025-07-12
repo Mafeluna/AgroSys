@@ -244,6 +244,8 @@
                 <option value="" selected>-</option>
                 <option value="1">Kilogramos</option>
                 <option value="2">Litros</option>
+                <option value="3">Unidades</option>
+                <option value="4">Porciones</option>
             </select>
             <p id="mensaje-tipoMedida" class="text-base text-center font-medium mb-4"></p>
             </div>

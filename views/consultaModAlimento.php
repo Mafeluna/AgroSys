@@ -105,8 +105,8 @@
                 id="cantidad"
                 class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
                 value="<?php echo $respuesta[0]['cantidad'] ?>"
+                required
               />
-              <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
             </div>
             <div class="mb-5">
               <label
