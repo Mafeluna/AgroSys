@@ -77,13 +77,38 @@
           >
             Generar Excel
           </button>
-          <button
-            id="btn-user"
-            class="bg-green-500 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
-            onclick=""
-          >
-            Importar Datos
-          </button>
+
+
+<button
+  type="button"
+  id="btn-importar"
+  class="bg-green-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+>
+  Importar Datos
+</button>
+
+<form id="form-excel" action="../controllers/usuario/procesar_excel.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="archivo_excel" id="input-excel" accept=".xls,.xlsx" style="display: none;">
+  </form>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("btn-importar"); 
+    const input = document.getElementById("input-excel");
+    const form = document.getElementById("form-excel");
+
+    btn.addEventListener("click", function () {
+      input.click();
+    });
+
+    input.addEventListener("change", function () {
+      if (input.files.length > 0) {
+        form.submit();
+      }
+    });
+  });
+</script>
+
           </div>
           <div class="w-1/2 ">
           <form action="" class="flex gap-10" method="post">
@@ -208,19 +233,35 @@
   </td>
 
   <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-    <button onclick="toggleMensaje(this)" class="text-blue-700 text-2xl hover:text-blue-900">
-      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-    </button>
-    <div class="mt-2 hidden">
-    <form action="../controllers/usuario/correo_autom.php" method="POST"
-    class="flex flex-col gap-2 mt-2">
-        <input type="hidden" name="correo_destino" value="<?php echo $valor['email']; ?>">
-        <textarea name="mensaje" rows="2" placeholder="Escribe tu mensaje..." class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-        <button type="submit" class="self-start px-4 py-1 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm font-semibold">
-          Enviar
-        </button>
-      </form>
-    </div>
+   <button onclick="abrirModal('<?php echo $valor['email']; ?>')" class="text-blue-700 text-2xl hover:text-blue-900">
+  <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+</button>
+
+ <div id="modalMensaje" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg w-[500px] shadow-lg relative">
+    <button onclick="cerrarModal()" class="absolute top-2 right-2 text-gray-600 text-xl">&times;</button>
+    <form action="../controllers/usuario/correo_autom.php" method="POST" class="flex flex-col gap-4">
+      <input type="hidden" name="correo_destino" id="modalCorreoDestino">
+      <label class="text-lg font-semibold">Mensaje:</label>
+      <textarea name="mensaje" rows="6" placeholder="Escribe tu mensaje..." class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+      <button type="submit" class="self-end px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-base font-semibold">
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
+<script>
+function abrirModal(correo) {
+  document.getElementById('modalCorreoDestino').value = correo;
+  document.getElementById('modalMensaje').classList.remove('hidden');
+  document.getElementById('modalMensaje').classList.add('flex');
+}
+
+function cerrarModal() {
+  document.getElementById('modalMensaje').classList.add('hidden');
+}
+</script>
+
   </td>
 
   <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
