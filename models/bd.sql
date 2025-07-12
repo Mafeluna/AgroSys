@@ -92,6 +92,7 @@ CREATE PROCEDURE ModificarUsuario(
     UPDATE Usuario
     SET nombre = p_nombre,
         apellido = p_apellido,
+        documento = p_documento,
         email = p_email,
         rol = p_rol,
         telefono = p_telefono,
@@ -305,19 +306,17 @@ CREATE PROCEDURE ConsultaPorEspecieEspecifica(
 CREATE PROCEDURE ConsultaEspecificaAnimal(
 	IN p_id_animal SMALLINT UNSIGNED
 )
-	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Especie.id_especie,Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
+	SELECT Animal.id_animal,Animal.nombre,Especie.nombre as "especie",Animal.peso,Animal.fecha_ingreso,Usuario.nombre as "nombre_user",Usuario.apellido as "apellido_user" 
     FROM Usuario 
-    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND id_animal = p_id_animal;
+    INNER JOIN Animal ON Animal.registrado_por = Usuario.id_usuario INNER JOIN Especie ON Animal.especie = Especie.id_especie WHERE Animal.estado=1 AND Animal.id_animal = p_id_animal;
+    
 
 CREATE PROCEDURE ModificarAnimal(
     IN p_id_animal SMALLINT UNSIGNED,
-    IN p_nombre VARCHAR(100),
-    IN p_especie ENUM('Vaca', 'Cerdo', 'Gallina', 'Caballo', 'Oveja', 'Pato', 'Conejo','Perro'),
     IN p_peso DECIMAL(5,2)
 )
     UPDATE Animal
-    SET nombre = p_nombre,
-        especie = p_especie,
+    SET
         peso = p_peso
     WHERE id_animal = p_id_animal;
 
@@ -343,23 +342,26 @@ CREATE TABLE Alimento(
     descripcion VARCHAR(40) NOT NULL,
     especie TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (especie) REFERENCES Especie(id_especie),
-    cantidad SMALLINT UNSIGNED NOT NULL,
-    tipo_medida ENUM('Kilogramos','Litros') NOT NULL,
+    cantidad DECIMAL(10,6) NOT NULL,
+    tipo_medida ENUM('Kilogramos','Litros','Unidades','Porciones') NOT NULL,
     estado ENUM ('Activo','Inactivo') DEFAULT 'Activo'
 );
 
 INSERT INTO Alimento (descripcion, especie, cantidad, tipo_medida)
 VALUES 
-('Heno seco', 1, 500, 'Kilogramos'),
-('Concentrado bovino', 1, 200, 'Kilogramos'),
-('Sal mineralizada', 1, 50, 'Kilogramos'),
-('Avena molida', 2, 300, 'Kilogramos'),
-('Pasto fresco', 2, 600, 'Kilogramos'),
-('Concentrado equino', 2, 150, 'Kilogramos'),
-('Maíz molido', 3, 120, 'Kilogramos'),
-('Agua tratada', 3, 200, 'Litros'),
-('Concentrado porcino', 4, 250, 'Kilogramos'),
-('Suero de leche', 4, 80, 'Litros');
+('Heno seco', 1, 500.000000, 'Kilogramos'),
+('Concentrado bovino', 1, 200.000000, 'Kilogramos'),
+('Sal mineralizada', 1, 50.000000, 'Kilogramos'),
+('Avena molida', 2, 300.000000, 'Kilogramos'),
+('Pasto fresco', 2, 600.000000, 'Kilogramos'),
+('Concentrado equino', 2, 150.000000, 'Kilogramos'),
+('Maíz molido', 3, 120.000000, 'Kilogramos'),
+('Agua tratada', 3, 200.000000, 'Litros'),
+('Concentrado porcino', 4, 250.000000, 'Kilogramos'),
+('Suero de leche', 4, 80.000000, 'Litros'),
+('Huevos', 3, 100.000000, 'Unidades'),
+('Ración mixta', 1, 75.000000, 'Porciones'),
+('Manzana', 2, 75.000000, 'Unidades');
 
 #procedimientos almacenados alimento
 CREATE PROCEDURE InsertarAlimento 
@@ -367,7 +369,7 @@ CREATE PROCEDURE InsertarAlimento
     IN p_descripcion VARCHAR(40),
     IN p_cantidad SMALLINT UNSIGNED,
     IN p_especie TINYINT UNSIGNED,
-    IN p_tipo ENUM('Kilogramos','Litros')
+    IN p_tipo ENUM('Kilogramos','Litros','Unidades','Porciones')
 )
     INSERT INTO Alimento (descripcion, cantidad,especie,tipo_medida) 
     VALUES (p_descripcion, p_cantidad, p_especie,p_tipo);
@@ -387,8 +389,8 @@ CREATE PROCEDURE ConsultarAlimentoPorID(
 CREATE PROCEDURE ActualizarAlimento(
     IN p_id_alimento TINYINT UNSIGNED,
     IN p_descripcion VARCHAR(40),
-    IN p_cantidad SMALLINT UNSIGNED,
-    IN p_tipo ENUM('Kilogramos','Litros'),
+    IN p_cantidad DECIMAL(10,8) UNSIGNED,
+    IN p_tipo ENUM('Kilogramos','Litros','Unidades','Porciones'),
     IN p_especie TINYINT UNSIGNED
 )
     UPDATE Alimento
@@ -405,7 +407,7 @@ CREATE PROCEDURE EliminarAlimento(
     UPDATE Alimento
     SET estado=2
     WHERE id_alimento = p_id_alimento;
-
+select*from especie;
 #----------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Alimentacion(
 	id_alimentacion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -414,6 +416,7 @@ CREATE TABLE Alimentacion(
     alimento TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (alimento) REFERENCES Alimento(id_alimento),
     cantidad SMALLINT UNSIGNED NOT NULL,
+    unidad_medida VARCHAR(50) NOT NULL,
     fecha DATE DEFAULT CURRENT_TIMESTAMP,
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
@@ -423,42 +426,45 @@ DELIMITER //
 CREATE PROCEDURE InsertarAlimentacion(
     IN p_especie TINYINT UNSIGNED,
     IN p_alimento TINYINT UNSIGNED,
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_cantidad SMALLINT UNSIGNED,
+    IN p_unidad VARCHAR(50),
+    IN p_cantidadB DECIMAL(10,6)
 )
 BEGIN
-    INSERT INTO Alimentacion(especie, alimento, cantidad) 
-    VALUES (p_especie, p_alimento, p_cantidad);
+    INSERT INTO Alimentacion(especie, alimento, cantidad,unidad_medida) 
+    VALUES (p_especie, p_alimento, p_cantidad,p_unidad);
 	
     UPDATE Alimento
-    SET cantidad = cantidad - p_cantidad
+    SET cantidad = cantidad - p_cantidadb
     WHERE id_alimento = p_alimento;
 END //
 DELIMITER ;
 
-CALL InsertarAlimentacion(1, 1, 50); -- Vaca, Heno seco
-CALL InsertarAlimentacion(1, 2, 30); -- Vaca, Concentrado bovino
-CALL InsertarAlimentacion(1, 3, 20); -- Vaca, Sal mineralizada
-CALL InsertarAlimentacion(2, 4, 40); -- Caballo, Avena molida
-CALL InsertarAlimentacion(2, 5, 40); -- Caballo, Pasto fresco
-CALL InsertarAlimentacion(2, 6, 25); -- Caballo, Concentrado equino
-CALL InsertarAlimentacion(3, 7, 40); -- Gallina, Maíz molido
-CALL InsertarAlimentacion(3, 8, 30); -- Gallina, Agua tratada
-CALL InsertarAlimentacion(4, 9, 15); -- Cerdo, Concentrado porcino
-CALL InsertarAlimentacion(4, 10, 35); -- Cerdo, Suero de leche
-CALL InsertarAlimentacion(1, 1, 40); -- Vaca, Heno seco
-CALL InsertarAlimentacion(1, 2, 50); -- Vaca, Concentrado bovino
-CALL InsertarAlimentacion(1, 3, 30); -- Vaca, Sal mineralizada
-CALL InsertarAlimentacion(2, 4, 20); -- Caballo, Avena molida
-CALL InsertarAlimentacion(2, 5, 80); -- Caballo, Pasto fresco
-CALL InsertarAlimentacion(2, 6, 40); -- Caballo, Concentrado equino
-CALL InsertarAlimentacion(3, 7, 20); -- Gallina, Maíz molido
-CALL InsertarAlimentacion(3, 8, 40); -- Gallina, Agua tratada
-CALL InsertarAlimentacion(4, 9, 10); -- Cerdo, Concentrado porcino
-CALL InsertarAlimentacion(4, 10, 40); -- Cerdo, Suero de leche
-CALL InsertarAlimentacion(1, 1, 30); -- Vaca, Heno seco
-CALL InsertarAlimentacion(2, 5, 50); -- Caballo, Pasto fresco
-CALL InsertarAlimentacion(3, 7, 20); -- Gallina, Maíz molido
-CALL InsertarAlimentacion(4, 9, 20); -- Cerdo, Concentrado porcino
+CALL InsertarAlimentacion(1, 1, 50, 'Kilogramos',50); -- Heno seco
+CALL InsertarAlimentacion(1, 2, 30, 'Kilogramos',30); -- Concentrado bovino
+CALL InsertarAlimentacion(1, 3, 20, 'Kilogramos',20); -- Sal mineralizada
+CALL InsertarAlimentacion(2, 4, 40, 'Kilogramos',40); -- Avena molida
+CALL InsertarAlimentacion(2, 5, 40, 'Kilogramos',40); -- Pasto fresco
+CALL InsertarAlimentacion(2, 6, 25, 'Kilogramos',25); -- Concentrado equino
+CALL InsertarAlimentacion(3, 7, 40, 'Kilogramos',40); -- Maíz molido
+CALL InsertarAlimentacion(3, 8, 30, 'Litros',30);     -- Agua tratada
+CALL InsertarAlimentacion(4, 9, 15, 'Kilogramos',15); -- Concentrado porcino
+CALL InsertarAlimentacion(4, 10, 35, 'Litros',35);    -- Suero de leche
+CALL InsertarAlimentacion(1, 1, 40, 'Kilogramos',40);
+CALL InsertarAlimentacion(1, 2, 50, 'Kilogramos',50);
+CALL InsertarAlimentacion(1, 3, 30, 'Kilogramos',30);
+CALL InsertarAlimentacion(2, 4, 20, 'Kilogramos',20);
+CALL InsertarAlimentacion(2, 5, 80, 'Kilogramos',80);
+CALL InsertarAlimentacion(2, 6, 40, 'Kilogramos',40);
+CALL InsertarAlimentacion(3, 7, 20, 'Kilogramos',20);
+CALL InsertarAlimentacion(3, 8, 40, 'Litros',40);
+CALL InsertarAlimentacion(4, 9, 10, 'Kilogramos',10);
+CALL InsertarAlimentacion(4, 10, 40, 'Litros',40);
+CALL InsertarAlimentacion(1, 1, 30, 'Kilogramos',30);
+CALL InsertarAlimentacion(2, 5, 50, 'Kilogramos',50);
+CALL InsertarAlimentacion(3, 7, 20, 'Kilogramos',20);
+CALL InsertarAlimentacion(4, 9, 20, 'Kilogramos',20);
+
 
 CREATE PROCEDURE ConsultaGeneralAlimentacion()
 	SELECT 
@@ -466,7 +472,7 @@ CREATE PROCEDURE ConsultaGeneralAlimentacion()
         Especie.nombre AS "especie",
         Alimento.descripcion AS "alimento",
         Alimentacion.cantidad,
-        Alimento.tipo_medida,
+        Alimentacion.unidad_medida,
         Alimentacion.fecha
     FROM Alimentacion
     INNER JOIN Alimento ON Alimento.id_alimento = Alimentacion.alimento
@@ -482,7 +488,7 @@ CREATE PROCEDURE ConsultarAlimentacionPorID(
         Especie.nombre AS "especie",
         Alimento.descripcion AS "alimento",
         Alimentacion.cantidad,
-        Alimento.tipo_medida,
+        Alimentacion.unidad_medida,
         Alimentacion.fecha
     FROM Alimentacion
     INNER JOIN Alimento ON Alimento.id_alimento = Alimentacion.alimento
@@ -490,23 +496,49 @@ CREATE PROCEDURE ConsultarAlimentacionPorID(
     WHERE Alimentacion.estado = 'Activo'
     AND id_alimentacion = p_id_alimentacion;
 
+DELIMITER //
 
-CREATE PROCEDURE ActualizarAlimentacion
-(
+CREATE PROCEDURE ActualizarAlimentacion(
     IN p_id_alimentacion INT UNSIGNED,
-    IN p_cantidad SMALLINT UNSIGNED
+    IN p_cantidad DECIMAL(10,6) UNSIGNED,
+    IN p_cantidadB DECIMAL(10,6),  -- nueva cantidad en base
+    IN p_cantidadAnterior DECIMAL(10,6)
 )
-    UPDATE Alimentacion
-    SET
-	cantidad = p_cantidad
+BEGIN
+    DECLARE v_cantidad_anterior DECIMAL(10,6);
+    DECLARE v_id_alimento TINYINT UNSIGNED;
+    DECLARE v_diferencia DECIMAL(10,6);
+    
+    -- 1. Obtener el ID del alimento correspondiente a la alimentación
+    SELECT alimento
+    INTO v_id_alimento
+    FROM Alimentacion
     WHERE id_alimentacion = p_id_alimentacion;
+
+    -- 2. Calcular la diferencia entre lo anterior y lo nuevo
+    SET v_cantidad_anterior = p_cantidadAnterior;
+    SET v_diferencia = v_cantidad_anterior - p_cantidadB;
+
+    -- 3. Actualizar la tabla Alimentacion con la nueva cantidad
+    UPDATE Alimentacion
+    SET cantidad = p_cantidad
+    WHERE id_alimentacion = p_id_alimentacion;
+
+    -- 4. Ajustar el stock del alimento
+    UPDATE Alimento
+    SET cantidad = GREATEST(cantidad + v_diferencia, 0)
+    WHERE id_alimento = v_id_alimento;
+END //
+
+DELIMITER ;
+
 
 #---------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE Produccion(
 	id_produccion INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     tipo_produccion VARCHAR(255) NOT NULL,
     cantidad SMALLINT UNSIGNED NOT NULL,
-    tipo_medida ENUM('Kilogramos','Litros') NOT NULL,
+    unidad_medida ENUM('Kilogramos','Litros','Unidades','Porciones') NOT NULL,
     fecha DATE NOT NULL,
     especie TINYINT UNSIGNED NOT NULL,
     FOREIGN KEY (especie) REFERENCES Especie(id_especie),
@@ -519,22 +551,22 @@ CREATE PROCEDURE InsertarProduccion
 (
     IN p_tipo_produccion VARCHAR(255),
     IN p_cantidad SMALLINT UNSIGNED,
-    IN p_tipo ENUM('Kilogramos','Litros'),
+    IN p_unidad ENUM('Kilogramos','Litros','Unidades','Porciones'),
     IN p_especie SMALLINT UNSIGNED
 )
-    INSERT INTO Produccion (tipo_produccion, cantidad,tipo_medida,fecha, especie) 
-    VALUES (p_tipo_produccion, p_cantidad,p_tipo,CURRENT_TIMESTAMP, p_especie);
+    INSERT INTO Produccion (tipo_produccion, cantidad,unidad_medida,fecha, especie) 
+    VALUES (p_tipo_produccion, p_cantidad,p_unidad,CURRENT_TIMESTAMP, p_especie);
 
 
 CREATE PROCEDURE InsertarProduccionConFecha
 (
     IN p_tipo_produccion VARCHAR(255),
     IN p_cantidad SMALLINT UNSIGNED,
-    IN p_tipo ENUM('Kilogramos','Litros'),
+    IN p_tipo ENUM('Kilogramos','Litros','Unidades','Porciones'),
     IN p_fecha DATE,
     IN p_especie SMALLINT UNSIGNED
 )
-    INSERT INTO Produccion (tipo_produccion, cantidad, tipo_medida, fecha, especie)
+    INSERT INTO Produccion (tipo_produccion, cantidad, unidad_medida, fecha, especie)
     VALUES (p_tipo_produccion, p_cantidad, p_tipo, p_fecha, p_especie);
 -- Enero
 CALL InsertarProduccionConFecha('Leche', 120, 'Litros', '2025-01-05', 1);
@@ -587,13 +619,13 @@ CALL InsertarProduccionConFecha('Carne', 125, 'Kilogramos', '2025-12-27', 4);
 
 
 CREATE PROCEDURE ConsultaGeneralProduccion()
-	SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.tipo_medida,Produccion.fecha,Especie.nombre 
+	SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.unidad_medida,Produccion.fecha,Especie.nombre 
     FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado='Activo' ORDER BY Produccion.id_produccion;
 
 
 CREATE PROCEDURE ConsultarProduccionPorID(	
 IN p_id_produccion INT UNSIGNED)
-    SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.tipo_medida,Produccion.fecha,Especie.nombre 
+    SELECT Produccion.id_produccion,Produccion.tipo_produccion,Produccion.cantidad,Produccion.unidad_medida,Produccion.fecha,Especie.id_especie,Especie.nombre 
     FROM Especie INNER JOIN Produccion ON Especie.id_especie=Produccion.especie WHERE Produccion.estado='Activo' AND Produccion.id_produccion=p_id_produccion;
 
 
@@ -723,12 +755,18 @@ CREATE TABLE Finanzas (
     FOREIGN KEY (registrado_por) REFERENCES usuario(id_usuario),
     estado ENUM('Activo','Inactivo') DEFAULT 'Activo'
 );
-SELECT 
-    SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) AS total_ingresos,
-    SUM(CASE WHEN tipo = 'egreso' THEN monto ELSE 0 END) AS total_egresos
-FROM Finanzas
-WHERE estado = 'Activo';
+
+    
 #procedimientos almacenados finanzas
+CREATE PROCEDURE ResumenFinanciero()
+	SELECT 
+		SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) AS total_ingresos,
+		SUM(CASE WHEN tipo = 'egreso' THEN monto ELSE 0 END) AS total_egresos,
+		SUM(CASE WHEN tipo = 'ingreso' THEN monto ELSE 0 END) - 
+		SUM(CASE WHEN tipo = 'egreso' THEN monto ELSE 0 END) AS balance
+	FROM Finanzas
+	WHERE estado = 'Activo';
+
 CREATE PROCEDURE InsertarFinanzas
 (
     IN p_tipo ENUM('ingreso', 'egreso'),
@@ -760,7 +798,6 @@ IN p_id_transaccion INT
 )
    SELECT id_transaccion,tipo,monto,descripcion,fecha,nombre,apellido FROM Usuario INNER JOIN Finanzas ON id_usuario=registrado_por WHERE Finanzas.estado=1
    AND id_transaccion = p_id_transaccion;
-
 
 CREATE PROCEDURE Actualizarfinanzas
 (

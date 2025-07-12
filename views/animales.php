@@ -186,6 +186,7 @@
                   name="especie"
                   id="especie"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                  required
                 >
                   <option value="" selected>-</option>
                   <?php
@@ -210,6 +211,7 @@
                   name="peso"
                   id="peso"
                   class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                  required
                 />
                 <p id="mensaje-peso" class="text-base text-center font-medium mb-4"></p>
               </div>
