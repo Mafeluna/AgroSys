@@ -233,19 +233,35 @@
   </td>
 
   <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-    <button onclick="toggleMensaje(this)" class="text-blue-700 text-2xl hover:text-blue-900">
-      <ion-icon name="chatbox-ellipses-outline"></ion-icon>
-    </button>
-    <div class="mt-2 hidden">
-    <form action="../controllers/usuario/correo_autom.php" method="POST"
-    class="flex flex-col gap-2 mt-2">
-        <input type="hidden" name="correo_destino" value="<?php echo $valor['email']; ?>">
-        <textarea name="mensaje" rows="2" placeholder="Escribe tu mensaje..." class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
-        <button type="submit" class="self-start px-4 py-1 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-sm font-semibold">
-          Enviar
-        </button>
-      </form>
-    </div>
+   <button onclick="abrirModal('<?php echo $valor['email']; ?>')" class="text-blue-700 text-2xl hover:text-blue-900">
+  <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+</button>
+
+ <div id="modalMensaje" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg w-[500px] shadow-lg relative">
+    <button onclick="cerrarModal()" class="absolute top-2 right-2 text-gray-600 text-xl">&times;</button>
+    <form action="../controllers/usuario/correo_autom.php" method="POST" class="flex flex-col gap-4">
+      <input type="hidden" name="correo_destino" id="modalCorreoDestino">
+      <label class="text-lg font-semibold">Mensaje:</label>
+      <textarea name="mensaje" rows="6" placeholder="Escribe tu mensaje..." class="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+      <button type="submit" class="self-end px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg text-base font-semibold">
+        Enviar
+      </button>
+    </form>
+  </div>
+</div>
+<script>
+function abrirModal(correo) {
+  document.getElementById('modalCorreoDestino').value = correo;
+  document.getElementById('modalMensaje').classList.remove('hidden');
+  document.getElementById('modalMensaje').classList.add('flex');
+}
+
+function cerrarModal() {
+  document.getElementById('modalMensaje').classList.add('hidden');
+}
+</script>
+
   </td>
 
   <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
