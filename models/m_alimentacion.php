@@ -23,6 +23,17 @@
       return $tabla;
     }
 
+    public function consultaEspecificaPorId($id){
+      $this->id_alimentacion = $id;
+
+      include "conexion.php";
+      $consulta = $conexion->prepare("CALL ConsultarAlimentacionPorID(?)");
+      $consulta->bindParam(1,$this->id_alimentacion);
+      $consulta->execute();
+
+      $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $tabla;
+    }
   }
 
 ?>

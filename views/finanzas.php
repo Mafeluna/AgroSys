@@ -14,7 +14,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgroSys | Finanzas</title>
+    <title>AgroSys | Reporte Economico</title>
     <link rel="shortcut icon" href="../images/logo.jpg" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script
@@ -50,14 +50,14 @@
             onclick="mostrarSeccion('registerFinanzas')"
           >
             <ion-icon name="add-outline"></ion-icon>
-            Registrar Finanzas
+            Registrar Transaccion
           </button>
           <button
             id="btn-user"
             class="bg-blue-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
             onclick="mostrarSeccion('consultaFinanzas')"
           >
-            Consultar Finanzas
+            Consultar Reporte
           </button>
           <button
             id="btn-user"
@@ -94,7 +94,7 @@
             <h2
                 class="font-sans text-3xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 text-center uppercase"
               >
-                Resumen Financiero
+                Resumen
             </h2>
             <div class="flex w-full justify-evenly">
               <div
@@ -248,7 +248,7 @@
           </section>
           <!-- registro -->
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerFinanzas">
-            <h2 class="text-3xl font-semibold">Registrar Finanzas</h2>
+            <h2 class="text-3xl font-semibold">Registrar Transacción</h2>
             <form action="../controllers/finanza/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-finance">
              
             <div class="mb-5">

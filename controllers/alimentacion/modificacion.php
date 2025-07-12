@@ -21,17 +21,49 @@
 
   <?php
     include_once ("conexion.php"); 
+    include "../../models/m_alimentacion.php";
     $id_alimentacion = $_POST['id_alimentacion'];
-    $cantidad = $_POST['cantidad'];
 
-    $sql = "CALL ActualizarAlimentacion('$id_alimentacion', '$cantidad');";
+    $instanciaConsulta = new alimentacion();
+    $consulta = $instanciaConsulta->consultaEspecificaPorId($id_alimentacion);
+    $unidadMedida = $consulta[0]["unidad_medida"];
+    $cantidad = $_POST['cantidad'];
+    $cantidadB = $cantidad;
+    $cantidadAnterior = $consulta[0]["cantidad"];
+
+    if($unidadMedida == "Miligramos"){
+      $cantidadB = $cantidad*(1/1000000);
+      $cantidadAnterior = $cantidadAnterior*(1/1000000);
+    }
+    elseif($unidadMedida == "Decigramos"){
+      $cantidadB = $cantidad*(1/10000);
+      $cantidadAnterior = $cantidadAnterior*(1/10000);
+    }
+    elseif($unidadMedida == "Gramos"){
+      $cantidadB = $cantidad*(1/1000);
+      $cantidadAnterior = $cantidadAnterior*(1/1000);
+    }
+    elseif($unidadMedida == "Mililitros"){
+      $cantidadB = $cantidad*(1/1000);
+      $cantidadAnterior = $cantidadAnterior*(1/1000);
+    }
+    elseif($unidadMedida == "Centilitros"){
+      $cantidadB = $cantidad*(1/100);
+      $cantidadAnterior = $cantidadAnterior*(1/100);
+    }
+    elseif($unidadMedida == "Galones"){
+      $cantidadB = $cantidad*3.78541;
+      $cantidadAnterior = $cantidadAnterior*3.785;
+    }
+
+    $sql = "CALL ActualizarAlimentacion('$id_alimentacion', '$cantidad',$cantidadB,$cantidadAnterior);";
 
     if ($conn->query($sql) === TRUE) {
         $script = "
         Swal.fire({
             icon: 'success',
             title: 'Modificacion Exitosa',
-            text: 'Los datos han sido actualizados exitosamente',
+            text: 'Los datos han sido actualizados exitosamente{$cantidadB}',
             confirmButtonText: 'Aceptar'
         }).then(function() {
             window.location.href = '../../views/alimentacion.php?section=alimentacion';

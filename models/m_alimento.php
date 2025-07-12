@@ -41,6 +41,16 @@
       return $tabla;
     }
 
+    public function buscarPorId($id){
+      include "conexion.php";
+      $consulta = $conexion->prepare("SELECT*FROM Alimento WHERE id_alimento = ?");
+      $consulta->bindParam(1,$id);
+      $consulta->execute();
+
+      $tabla = $consulta->fetchAll(PDO::FETCH_ASSOC);
+      return $tabla;
+    }
+
     public function modificar($datos){
       $this->id_alimento = $datos['id_alimento'];
       $this->descripcion = $datos['descripcion'];

@@ -209,6 +209,26 @@
               />
               <p id="mensaje-descripcion" class="text-base text-center font-medium mb-4"></p>
             </div>
+                        <div class="mb-5">
+              <label
+                for="tipo_medida"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+              >
+                Unidad Estandar de Medida:
+              </label>
+            <select
+              name="tipo_medida"
+              id="tipo_medida"
+              class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+            >
+                <option value="" selected>-</option>
+                <option value="1">Kilogramos</option>
+                <option value="2">Litros</option>
+                <option value="3">Unidades</option>
+                <option value="4">Porciones</option>
+            </select>
+            <p id="mensaje-tipoMedida" class="text-base text-center font-medium mb-4"></p>
+            </div>
             <div class="mb-5">
               <label
                 for="cantidad"
@@ -226,28 +246,10 @@
             </div>
             <div class="mb-5">
               <label
-                for="tipo_medida"
-                class="mb-3 block text-base font-medium text-[#07074D]"
-              >
-                Tipo de medida:
-              </label>
-              <select
-                name="tipo_medida"
-                id="tipo_medida"
-                class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
-              >
-                <option value="" selected>-</option>
-                <option value="1">Kilogramos</option>
-                <option value="2">Litros</option>
-            </select>
-            <p id="mensaje-tipoMedida" class="text-base text-center font-medium mb-4"></p>
-            </div>
-            <div class="mb-5">
-              <label
                 for="especie"
                 class="mb-3 block text-base font-medium text-[#07074D]"
               >
-                Especie:
+                Especie Consumidora:
               </label>
               <select
                 name="especie"

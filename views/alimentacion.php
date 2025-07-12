@@ -178,7 +178,7 @@
                 <?php echo $valor['cantidad']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['tipo_medida']?>
+                <?php echo $valor['unidad_medida']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['fecha']?>
@@ -204,7 +204,6 @@
           <section class="w-full h-full justify-center items-center seccion flex-col" id="registerAlimentacion">
             <h2 class="text-3xl font-semibold">Registrar Alimentacion</h2>
             <form action="../controllers/alimentacion/registro.php" method="POST" class="w-1/2" enctype="multipart/form-data" id="form-alimentation">
-             
               <div class="mb-5">
                 <label
                   for="especie"
@@ -263,7 +262,18 @@
                 />
                 <p id="mensaje-cantidad" class="text-base text-center font-medium mb-4"></p>
               </div>
-
+              <div class="mb-5">
+                <label for="unidad_medida" class="mb-3 block text-base font-medium text-[#07074D]">
+                  Unidad de Medida:
+                </label>
+                <select
+                  name="unidad_medida"
+                  id="unidad_medida"
+                  class="w-full rounded-md border border-slate-300 bg-white py-3 px-6 text-base font-medium outline-none focus:border-lime-600 focus:shadow-md"
+                >
+                  <option value="">-</option>
+                </select>
+              </div>
               <div class="w-full flex justify-center mt-5">
                 <button
                   class="hover:shadow-form rounded-md bg-lime-500 py-3 px-8 text-base font-semibold text-white outline-none"
@@ -303,6 +313,53 @@
                 }
               });
             </script>
+            <script>
+              document.getElementById("alimento").addEventListener("change", function() {
+                const idAlimento = this.value;
+
+                if (idAlimento === "") return;
+
+                fetch("../controllers/alimentacion/unidad_medida.php", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+                  body: "id_alimento=" + idAlimento
+                })
+                .then(res => res.json())
+                .then(data => {
+                  const unidadBase = data.unidad_base;
+                  const selectUnidad = document.getElementById("unidad_medida");
+
+                  let opciones = [];
+
+                  switch (unidadBase) {
+                    case "Kilogramos":
+                      opciones = ["Miligramos", "Decigramos", "Gramos", "Kilogramos"];
+                      break;
+                    case "Litros":
+                      opciones = ["Mililitros", "Centilitros", "Litros", "Galones"];
+                      break;
+                    case "Unidades":
+                      opciones = ["Unidades"];
+                      break;
+                    case "Porciones":
+                      opciones = ["Porciones"];
+                      break;
+                    default:
+                      opciones = ["No disponible"];
+                  }
+
+                  selectUnidad.innerHTML = '<option value="">-</option>';
+                  opciones.forEach(u => {
+                    const option = document.createElement("option");
+                    option.value = u;
+                    option.textContent = u;
+                    selectUnidad.appendChild(option);
+                  });
+                });
+              });
+              </script>
 
           </section>
         </article>

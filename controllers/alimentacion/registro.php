@@ -23,14 +23,34 @@
         $especie = $_POST ['especie'];
         $alimento = $_POST ['alimento'];
         $cantidad = $_POST ['cantidad'];
+        $cantidadB = $cantidad;
+        $unidadMedida = $_POST['unidad_medida'];
 
-        $sql= "CALL InsertarAlimentacion($especie,$alimento,$cantidad);";
+        if($unidadMedida == "Miligramos"){
+          $cantidadB = $cantidad*(1/1000000);
+        }
+        elseif($unidadMedida == "Decigramos"){
+          $cantidadB = $cantidad*(1/10000);
+        }
+        elseif($unidadMedida == "Gramos"){
+          $cantidadB = $cantidad*(1/1000);
+        }
+        elseif($unidadMedida == "Mililitros"){
+          $cantidadB = $cantidad*(1/1000);
+        }
+        elseif($unidadMedida == "Centilitros"){
+          $cantidadB = $cantidad*(1/100);
+        }
+        elseif($unidadMedida == "Galones"){
+          $cantidadB = $cantidad*3.785;
+        }
+        $sql= "CALL InsertarAlimentacion($especie,$alimento,$cantidad,'$unidadMedida',$cantidadB);";
         if ($conn -> query($sql) === TRUE){
             $script = "
                 Swal.fire({
                     icon: 'success',
                     title: 'Registro Exitoso',
-                    text: 'fue registrado exitosamente',
+                    text: 'fue registrado exitosamente {$cantidadB}',
                     confirmButtonText: 'Aceptar'
                 }).then(function() {
                     window.location.href = '../../views/alimentacion.php?section=alimentacion';

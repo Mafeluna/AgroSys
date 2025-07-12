@@ -169,7 +169,7 @@
                 <?php echo $valor['cantidad']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
-                <?php echo $valor['tipo_medida']?>
+                <?php echo $valor['unidad_medida']?>
               </td>
               <td class="whitespace-nowrap border-e border-neutral-800 px-6 py-4 text-lg font-medium">
                 <?php echo $valor['fecha']?>

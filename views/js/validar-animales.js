@@ -1,13 +1,11 @@
-const form = document.getElementById("form-animals");
+let form = document.getElementById("form-animals");
 
 form.addEventListener("submit", function (event) {
   //Campos
-  const codigo = document.getElementById("codigo");
   const especie = document.getElementById("especie");
   const peso = document.getElementById("peso");
 
   //Mensajes
-  const mCodigo = document.getElementById("mensaje-codigo");
   const mEspecie = document.getElementById("mensaje-especie");
   const mPeso = document.getElementById("mensaje-peso");
 
