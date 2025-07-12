@@ -77,13 +77,38 @@
           >
             Generar Excel
           </button>
-          <button
-            id="btn-user"
-            class="bg-green-500 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
-            onclick=""
-          >
-            Importar Datos
-          </button>
+
+
+<button
+  type="button"
+  id="btn-importar"
+  class="bg-green-300 duration-150 hover:!border-b-2 text-blue-950 rounded-xl drop-shadow-lg group flex items-center border-2 border-b-4 border-blue-950 cursor-pointer p-3 font-semibold hover:bg-yellow-400x"
+>
+  Importar Datos
+</button>
+
+<form id="form-excel" action="../controllers/usuario/procesar_excel.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="archivo_excel" id="input-excel" accept=".xls,.xlsx" style="display: none;">
+  </form>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("btn-importar"); 
+    const input = document.getElementById("input-excel");
+    const form = document.getElementById("form-excel");
+
+    btn.addEventListener("click", function () {
+      input.click();
+    });
+
+    input.addEventListener("change", function () {
+      if (input.files.length > 0) {
+        form.submit();
+      }
+    });
+  });
+</script>
+
           </div>
           <div class="w-1/2 ">
           <form action="" class="flex gap-10" method="post">
